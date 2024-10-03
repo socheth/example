@@ -3,10 +3,10 @@
         Home Page
     </x-slot:heading>
 
-    <ol class="list-decimal list-inside">
+    <ol class="leading-8 list-decimal list-inside dark:text-white">
         @foreach ($users as $user)
             <li>
-                {{ $user->name }}
+                <span class="text-yellow-400">{{ $user->name }}</span>
             </li>
         @endforeach
     </ol>
