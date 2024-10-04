@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Job;
+
 use App\Models\Post;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-        Job::factory(100)->create();
-        Post::factory(100)->create();
+        $this->call(PostSeeder::class);
+        $this->call(JobSeeder::class);
 
         // User::factory()->create([
         //     'name' => 'Test User',

@@ -30,6 +30,9 @@
                                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-nav-link>
                                 <x-nav-link href="{{ route('jobs') }}" :active="request()->routeIs('jobs')">Jobs</x-nav-link>
                                 <x-nav-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">Posts</x-nav-link>
+                                <x-nav-link href="{{ route('job.create') }}" :active="request()->routeIs('job.create')">Create Job</x-nav-link>
+                                <x-nav-link href="{{ route('post.create') }}" :active="request()->routeIs('post.create')">Create
+                                    Post</x-nav-link>
                             </div>
                         </div>
                     </div>

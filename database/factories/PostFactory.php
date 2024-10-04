@@ -20,6 +20,9 @@ class PostFactory extends Factory
         return [
             'user_id' => User::all()->random()->id,
             'title' => fake()->sentence(),
+            'slug' => fake()->slug(),
+            'image' => fake()->imageUrl(),
+            'category' => fake()->word(),
             'body' => fake()->paragraph(10),
         ];
     }
