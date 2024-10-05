@@ -16,7 +16,7 @@
             </div>
 
             <div class="flex flex-col w-full mb-4 field-group">
-                <label class="mb-1 field-label required dark:text-white" for="pet-select">Category</label>
+                <label class="mb-1 field-label required dark:text-white" for="category">Category</label>
                 <select name="category" id="category" required
                     class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
                     <option value="">Choose category</option>
@@ -44,7 +44,7 @@
             <div class="flex flex-col w-full field-group">
                 <label class="mb-1 field-label dark:text-white" for="body">Image</label>
                 <input type="file" name="image" id="image"
-                    class="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:text-neutral-500 dark:file:bg-blue-500 dark:hover:file:bg-blue-400 ">
+                    class="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:text-neutral-500 dark:file:bg-blue-500 dark:hover:file:bg-blue-400 ">
             </div>
 
 
@@ -61,8 +61,8 @@
         </section>
 
         <div class="flex justify-center w-full pt-4 pb-5">
-            <a href="{{ route('posts.index') }}" class="btn">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{{ route('posts.index') }}" class="rounded-md btn">Cancel</a>
+            <button type="submit" class="rounded-md btn btn-primary">Save</button>
         </div>
     </form>
 

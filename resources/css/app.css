@@ -30,8 +30,6 @@ input:not([type="file"]),
 textarea {
     font-size: 0.875rem;
     line-height: 1.25rem;
-    background: #ffffff;
-    border: 1px solid #d2d6dc;
     padding: 7px 11px;
     box-shadow: inset 0px 1px 3px rgba(107, 114, 128, 0.2),
         0 0 0 1px rgba(28, 100, 242, 0);

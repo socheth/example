@@ -1,30 +1,35 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 
 Route::get('/', function () {
-    return view('home', ['users' => User::latest('id')->get()]);
+    return view('welcome');
 })->name('home');
 
-Route::view('/welcome', 'welcome')->name('welcome');
-Route::view('/about', 'about')->name('about');
-Route::view('/contact', 'contact')->name('contact');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Jobs
-
-Route::controller(JobController::class)->group(function () {
-    Route::get('/jobs', 'index')->name('jobs.index');
-    Route::get('/jobs/create', 'create')->name('jobs.create');
-    Route::post('/jobs/store', 'store')->name('jobs.store');
-    Route::get('/jobs/{job}', 'show')->name('jobs.show');
-    Route::get('/jobs/{job}/edit', 'edit')->name('jobs.edit');
-    Route::patch('/jobs/{job}', 'update')->name('jobs.update');
-    Route::delete('/jobs/{job}', 'destroy')->name('jobs.destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Posts
+Route::resource('jobs', JobController::class)->middleware(['auth', 'verified']);
 
-Route::resource('posts', PostController::class);
+Route::controller(PostController::class)->group(function () {
+    Route::get('/posts', 'index')->name('posts.index');
+    Route::get('/posts/create', 'create')->name('posts.create');
+    Route::get('/posts/{post}', 'show')->name('posts.show');
+    Route::post('/posts', 'store')->name('posts.store');
+    Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
+    Route::patch('/posts/{post}', 'update')->name('posts.update');
+    Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
+})->middleware(['auth', 'verified']);
+
+require __DIR__ . '/auth.php';

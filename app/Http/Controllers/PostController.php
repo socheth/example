@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Number;
 
 class PostController extends Controller
 {
@@ -41,6 +40,7 @@ class PostController extends Controller
 
         if (request('image')) {
             $request['image'] = request('image')->store('posts', 'public');
+            $request['image'] = asset('storage/' . $request['image']);
         }
 
         $request['slug'] = Str::slug(request('title'));
@@ -79,6 +79,7 @@ class PostController extends Controller
 
         if (isset($request['image'])) {
             $post->image = request()->file('image')->store('posts', 'public');
+            $post->image = asset('storage/' . $post->image);
         }
 
         $post->title = request('title');
