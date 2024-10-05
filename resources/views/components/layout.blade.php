@@ -28,10 +28,10 @@
                         <div class="hidden md:block">
                             <div class="flex items-baseline ml-10 space-x-4">
                                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-nav-link>
-                                <x-nav-link href="{{ route('jobs') }}" :active="request()->routeIs('jobs')">Jobs</x-nav-link>
-                                <x-nav-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">Posts</x-nav-link>
-                                <x-nav-link href="{{ route('job.create') }}" :active="request()->routeIs('job.create')">Create Job</x-nav-link>
-                                <x-nav-link href="{{ route('post.create') }}" :active="request()->routeIs('post.create')">Create
+                                <x-nav-link href="{{ route('jobs.index') }}" :active="request()->routeIs('jobs.index')">Jobs</x-nav-link>
+                                <x-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.index')">Posts</x-nav-link>
+                                <x-nav-link href="{{ route('jobs.create') }}" :active="request()->routeIs('jobs.create')">Create Job</x-nav-link>
+                                <x-nav-link href="{{ route('posts.create') }}" :active="request()->routeIs('posts.create')">Create
                                     Post</x-nav-link>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
             </div>
         </main>
     </div>
-
+    @stack('other-scripts')
 </body>
 
 </html>

@@ -1,10 +1,11 @@
-<x-layout headerTitle="Create Job">
+<x-layout headerTitle="Edit Job">
     <x-slot:heading>
-        Create New Job
+        Edit Job
     </x-slot:heading>
 
-    <form class="w-1/2 mx-auto text-sm text-gray-700" method="POST" action="{{ route('jobs.store') }}">
+    <form class="w-1/2 mx-auto text-sm text-gray-700" method="POST" action="{{ route('jobs.update', ['job' => $job]) }}">
         @csrf
+        @method('PATCH')
         <section class="flex flex-col w-full py-3">
 
             <div
@@ -13,13 +14,14 @@
                     <label class="mb-1 field-label required dark:text-white" for="title">Title</label>
                     <input required
                         class="border rounded-md field md:mr-2 text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="text" name="title" id="title" placeholder="Engineer" />
+                        type="text" name="title" id="title" placeholder="Engineer"
+                        value="{{ $job->title }}" />
                 </div>
                 <div class="flex flex-col w-full mb-4 field-group md:w-1/2">
                     <label class="mb-1 field-label required dark:text-white" for="salary">Salary</label>
                     <input required
                         class="border rounded-md field md:mr-2 text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="number" name="salary" id="salary" placeholder="5000" />
+                        type="number" name="salary" id="salary" placeholder="5000" value="{{ $job->salary }}" />
                 </div>
 
             </div>
@@ -35,9 +37,15 @@
 
         <div class="flex justify-center w-full pt-4 pb-5">
             <a href="{{ route('jobs.index') }}" class="btn">Cancel</a>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" form="delete-job-form" class="btn btn-danger">Trash</button>
+            <button type="submit" class="btn btn-primary">Update</button>
         </div>
 
+    </form>
+
+    <form class="hidden" method="POST" id="delete-job-form" action="{{ route('jobs.destroy', ['job' => $job]) }}">
+        @csrf
+        @method('DELETE')
     </form>
 
 </x-layout>

@@ -26,7 +26,8 @@ label {
     line-height: 1.25rem;
 }
 
-input {
+input:not([type="file"]),
+textarea {
     font-size: 0.875rem;
     line-height: 1.25rem;
     background: #ffffff;
@@ -39,13 +40,15 @@ input {
         border 0.25s cubic-bezier(0.64, 0, 0.35, 1) 0s;
 }
 
-input:focus {
+input:not([type="file"]):focus,
+textarea:focus {
     border: 1px solid #1c64f2;
     box-shadow: inset 0px 1px 3px rgba(107, 114, 128, 0), 0 0 0 1px #1c64f2;
     outline: 0;
 }
 
-input::placeholder {
+input:not([type="file"])::placeholder,
+textarea::placeholder {
     color: #9fa6b2;
 }
 
@@ -66,6 +69,13 @@ select {
     background-repeat: no-repeat, repeat;
     background-position: right 0.75rem top 50%, 0 0;
     background-size: 1rem auto, 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+    select {
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.7798 6.21995C12.9203 6.36058 12.9992 6.5512 12.9992 6.74995C12.9992 6.9487 12.9203 7.13933 12.7798 7.27995L8.52985 11.53C8.38922 11.6704 8.1986 11.7493 7.99985 11.7493C7.8011 11.7493 7.61047 11.6704 7.46985 11.53L3.21985 7.27995C3.08737 7.13778 3.01524 6.94973 3.01867 6.75543C3.0221 6.56113 3.10081 6.37574 3.23822 6.23833C3.37564 6.10092 3.56102 6.0222 3.75532 6.01878C3.94963 6.01535 4.13767 6.08747 4.27985 6.21995L7.99985 9.93995L11.7198 6.21995C11.8605 6.0795 12.0511 6.00061 12.2498 6.00061C12.4486 6.00061 12.6392 6.0795 12.7798 6.21995V6.21995Z' fill='%23374151'/%3E%3C/svg%3E%0A"),
+            linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    }
 }
 
 select:focus {
@@ -144,4 +154,26 @@ select:active {
     background: linear-gradient(180deg, #3f83f8 0%, #1c64f2 100%);
     box-shadow: inset 0px 2px 4px rgba(35, 56, 118, 0.5);
     border: 1px solid #1c64f2;
+}
+
+.btn-danger {
+    background: linear-gradient(180deg, #f83f3f 0%, #f21c1c 100%);
+    border: 1px solid #f21c1c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(180deg, #f21c1c 0%, #db1a1a 100%);
+}
+
+.btn-danger:focus {
+    border: 1px solid #9f1e1e;
+    box-shadow: 0 0 0 1px #9f1e1e, 0px 1px 2px rgba(0, 0, 0, 0.05);
+    outline: 0;
+}
+
+.btn-danger:active {
+    background: linear-gradient(180deg, #f83f3f 0%, #f21c1c 100%);
+    box-shadow: inset 0px 2px 4px rgba(35, 56, 118, 0.5);
+    border: 1px solid #f21c1c;
 }

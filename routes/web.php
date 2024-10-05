@@ -1,56 +1,30 @@
 <?php
 
-use App\Models\Job;
-use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('home', ['users' => User::latest('id')->get()]);
 })->name('home');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
+Route::view('/welcome', 'welcome')->name('welcome');
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+// Jobs
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+Route::controller(JobController::class)->group(function () {
+    Route::get('/jobs', 'index')->name('jobs.index');
+    Route::get('/jobs/create', 'create')->name('jobs.create');
+    Route::post('/jobs/store', 'store')->name('jobs.store');
+    Route::get('/jobs/{job}', 'show')->name('jobs.show');
+    Route::get('/jobs/{job}/edit', 'edit')->name('jobs.edit');
+    Route::patch('/jobs/{job}', 'update')->name('jobs.update');
+    Route::delete('/jobs/{job}', 'destroy')->name('jobs.destroy');
+});
 
-Route::get('/jobs', function () {
-    return view('jobs.index', ['jobs' => Job::latest('id')->paginate(10)]);
-})->name('jobs');
+// Posts
 
-Route::get('/jobs/create', function () {
-    return view('jobs.create');
-})->name('job.create');
-
-Route::post('/jobs', function (Request $request) {
-    $data = array_merge($request->all(), ['user_id' => User::all()->random()->id]);
-    Job::create($data);
-    return redirect('/jobs');
-})->name('job.store');
-
-Route::get('/jobs/{id}', function ($id) {
-    return view('jobs.show', ['job' => Job::find($id)]);
-})->name('job');
-
-Route::get('/posts', function () {
-    return view('posts.index', ['posts' => Post::latest('id')->simplePaginate(10)]);
-    // $user = User::all()->random();
-    // return view('posts', ['posts' => $user->posts()->latest('id')->get()]);
-})->name('posts');
-
-Route::get('/posts/create', function () {
-    return view('posts.create');
-})->name('post.create');
-
-Route::get('/posts/{id}', function ($id) {
-    $post = Post::find($id);
-    return view('posts.show', ['post' => $post]);
-})->name('post');
+Route::resource('posts', PostController::class);
