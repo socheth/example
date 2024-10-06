@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')">
+                        {{ __('Jobs') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('jobs.create')" :active="request()->routeIs('jobs.create')">
+                        {{ __('Create Job') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                        {{ __('Create Post') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -77,6 +89,18 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')">
+                {{ __('Jobs') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                {{ __('Posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('jobs.create')" :active="request()->routeIs('jobs.create')">
+                {{ __('Create Job') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                {{ __('Create Post') }}
             </x-responsive-nav-link>
         </div>
 

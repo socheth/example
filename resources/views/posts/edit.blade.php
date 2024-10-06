@@ -1,9 +1,11 @@
-<x-layout headerTitle="Edit Post">
-    <x-slot:heading>
-        Edit Post
-    </x-slot:heading>
+<x-app-layout headerTitle="Edit Post">
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Edit Post') }}
+        </h2>
+    </x-slot>
 
-    <form enctype="multipart/form-data" class="w-1/2 mx-auto text-sm text-gray-700" method="POST"
+    <form enctype="multipart/form-data" class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
         action="{{ route('posts.update', ['post' => $post]) }}">
         @csrf
         @method('PUT')
@@ -74,4 +76,4 @@
             document.getElementById('category').value = '{{ $post->category }}';
         </script>
     @endpushOnce
-</x-layout>
+</x-app-layout>

@@ -1,9 +1,11 @@
-<x-layout headerTitle="Create Job">
-    <x-slot:heading>
-        Create New Job
-    </x-slot:heading>
+<x-app-layout headerTitle="Create Job">
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Create New Job') }}
+        </h2>
+    </x-slot>
 
-    <form class="w-1/2 mx-auto text-sm text-gray-700" method="POST" action="{{ route('jobs.store') }}">
+    <form class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST" action="{{ route('jobs.store') }}">
         @csrf
         <section class="flex flex-col w-full py-3">
 
@@ -39,4 +41,4 @@
 
     </form>
 
-</x-layout>
+</x-app-layout>

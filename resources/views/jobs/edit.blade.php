@@ -1,9 +1,12 @@
-<x-layout headerTitle="Edit Job">
-    <x-slot:heading>
-        Edit Job
-    </x-slot:heading>
+<x-app-layout headerTitle="Edit Job">
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Edit Job') }}
+        </h2>
+    </x-slot>
 
-    <form class="w-1/2 mx-auto text-sm text-gray-700" method="POST" action="{{ route('jobs.update', ['job' => $job]) }}">
+    <form class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
+        action="{{ route('jobs.update', ['job' => $job]) }}">
         @csrf
         @method('PATCH')
         <section class="flex flex-col w-full py-3">
@@ -47,4 +50,4 @@
         @method('DELETE')
     </form>
 
-</x-layout>
+</x-app-layout>

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Post;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +27,7 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts/{post}', 'show')->name('posts.show');
     Route::post('/posts', 'store')->name('posts.store');
     Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
-    Route::patch('/posts/{post}', 'update')->name('posts.update');
+    Route::put('/posts/{post}', 'update')->name('posts.update');
     Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
 })->middleware(['auth', 'verified']);
 

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('role')->default('user');
             $table->boolean('is_active')->default(true);
-            $table->string('photo', 2048)->nullable();
+            $table->string('photo', 2048)->default('https://avatar.iran.liara.run/username?username=Me');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

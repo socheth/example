@@ -1,17 +1,18 @@
-<x-layout headerTitle="Create Post">
-    <x-slot:heading>
-        Create Post
-    </x-slot:heading>
+<x-app-layout headerTitle="Create Post">
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+            {{ __('Create Post') }}
+        </h2>
+    </x-slot>
 
-    <form enctype="multipart/form-data" class="w-1/2 mx-auto text-sm text-gray-700" method="POST"
+    <form enctype="multipart/form-data" class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
         action="{{ route('posts.store') }}">
         @csrf
         <section class="flex flex-col p-5 bg-white rounded-md dark:bg-gray-700 shadow-card">
 
             <div class="flex flex-col w-full mb-4 field-group">
                 <label class="mb-1 field-label required dark:text-white" for="title">Title</label>
-                <input required
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
+                <input required class="rounded-md text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
                     type="text" name="title" id="title" />
             </div>
 
@@ -66,4 +67,4 @@
         </div>
     </form>
 
-</x-layout>
+</x-app-layout>
