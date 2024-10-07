@@ -25,6 +25,13 @@
         </div>
 
         <div>
+            <x-input-label for="slug" :value="__('Slug')" />
+            <x-text-input id="slug" name="slug" type="text" class="block w-full mt-1 border"
+                :value="old('slug', $user->slug)" required autocomplete="off" />
+            <x-input-error class="mt-2" :messages="$errors->get('slug')" />
+        </div>
+
+        <div>
             <x-input-label for="phone" :value="__('Phone Number')" />
             <x-text-input id="phone" name="phone" type="tel" class="block w-full mt-1 border"
                 :value="old('phone', $user->phone)" required autocomplete="off" />

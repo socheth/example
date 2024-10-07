@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-
-use App\Models\Post;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
@@ -22,6 +20,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin',
+            'slug' => 'admin',
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
             'phone' => '+1234567890',

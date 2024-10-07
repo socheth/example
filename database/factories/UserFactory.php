@@ -23,8 +23,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->name();
         return [
-            'name' => fake()->name(),
+            'name' => $name,
+            'slug' => Str::slug($name),
             'address' => fake()->address(),
             'gender' => fake()->randomElement(['male', 'female']),
             'email' => fake()->unique()->safeEmail(),

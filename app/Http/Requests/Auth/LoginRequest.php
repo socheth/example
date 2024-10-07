@@ -51,7 +51,7 @@ class LoginRequest extends FormRequest
         //     ]);
         // }
 
-        $username = $this->string('username')->lower();
+        $username = $this->string('username');
         $user = User::where('email', $username)
             ->orWhere('name', $username)
             ->orWhere('phone', $username)
