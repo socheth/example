@@ -13,9 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index', ['posts' => Post::latest('id')->simplePaginate(10)]);
-        // $user = User::all()->random();
-        // return view('posts', ['posts' => $user->posts()->latest('id')->get()]);
+        return view('posts.index', ['posts' => auth()->user()->posts()->latest('id')->simplePaginate(10)]);
     }
 
     /**
@@ -44,9 +42,12 @@ class PostController extends Controller
         }
 
         $request['slug'] = Str::slug(request('title'));
-        $request['user_id'] = random_int(1, 10);
-        Post::create($request);
-        return to_route('posts.index');
+
+        auth()->user()->posts()->create($request);
+
+        session()->flash('message', 'Your post has been created!');
+
+        return redirect('/posts');
     }
 
     /**
@@ -54,6 +55,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if ($post->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         return view('posts.show', ['post' => $post]);
     }
 
@@ -62,6 +67,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if ($post->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -70,6 +79,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if ($post->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $request->validate([
             'title' => ['required', 'max:255'],
             'body' => 'required',
@@ -96,6 +109,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if ($post->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $post->delete();
         return redirect('/posts');
     }

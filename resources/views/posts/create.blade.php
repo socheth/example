@@ -1,4 +1,7 @@
-<x-app-layout headerTitle="Create Post">
+<x-app-layout>
+    <x-slot name="headerTitle">
+        {{ __('Create Post') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Create Post') }}
@@ -12,13 +15,14 @@
 
             <div class="flex flex-col w-full mb-4 field-group">
                 <label class="mb-1 field-label required dark:text-white" for="title">Title</label>
-                <input required class="rounded-md text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    type="text" name="title" id="title" />
+                <input class="border rounded-md text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
+                    type="text" name="title" id="title" value="{{ old('title') }}" />
+                <span class="mt-2 text-sm text-red-500">{{ $errors->first('title') }}</span>
             </div>
 
             <div class="flex flex-col w-full mb-4 field-group">
                 <label class="mb-1 field-label required dark:text-white" for="category">Category</label>
-                <select name="category" id="category" required
+                <select name="category" id="category"
                     class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
                     <option value="">Choose category</option>
                     <option value="CAT195">
@@ -33,31 +37,23 @@
                     </option>
                     <option value="CAT203">CAT203 COVID-19 Virus</option>
                 </select>
+                <span class="mt-2 text-sm text-red-500">{{ $errors->first('category') }}</span>
             </div>
 
             <div class="flex flex-col w-full mb-4 field-group">
                 <label class="mb-1 field-label required dark:text-white" for="body">Body</label>
-                <textarea required rows="10"
+                <textarea rows="10"
                     class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600" name="body"
-                    id="body"></textarea>
+                    id="body">{{ old('body') }}</textarea>
+                <span class="mt-2 text-sm text-red-500">{{ $errors->first('body') }}</span>
             </div>
 
             <div class="flex flex-col w-full field-group">
                 <label class="mb-1 field-label dark:text-white" for="body">Image</label>
-                <input type="file" name="image" id="image"
+                <input type="file" name="image" id="image" multiple
                     class="block w-full text-sm text-gray-500 file:me-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:disabled:opacity-50 file:disabled:pointer-events-none dark:text-neutral-500 dark:file:bg-blue-500 dark:hover:file:bg-blue-400 ">
+                <span class="mt-2 text-sm text-red-500">{{ $errors->first('image') }}</span>
             </div>
-
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li class="text-red-500">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
         </section>
 
@@ -67,4 +63,9 @@
         </div>
     </form>
 
+    @pushOnce('other-scripts')
+        <script>
+            document.getElementById('category').value = '{{ old('category') }}';
+        </script>
+    @endpushOnce
 </x-app-layout>

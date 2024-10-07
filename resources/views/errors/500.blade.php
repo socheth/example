@@ -1,3 +1,3 @@
-<x-layout heading="Error">
+<x-app-layout>
     500
-</x-layout>
+</x-app-layout>

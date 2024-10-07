@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('jobs.index', ['jobs' => Job::latest('id')->paginate(10)]);
+        return view('jobs.index', ['jobs' => auth()->user()->jobs()->latest('id')->paginate(10)]);
     }
 
     /**
@@ -29,13 +30,15 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-                    'title' => ['required', 'max:255'],
-                    'salary' => 'required|numeric|max:50000',
-                ]);
+        $request = request()->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'salary' => 'required|numeric|max:50000',
+        ]);
 
-        $data = array_merge($request->all(), ['user_id' => User::all()->random()->id]);
-        Job::create($data);
+        auth()->user()->jobs()->create($request);
+
+        session()->flash('message', 'Your job has been created!');
+
         return redirect('/jobs');
     }
 
@@ -44,6 +47,10 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
+        if ($job->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         return view('jobs.show', ['job' => $job]);
     }
 
@@ -52,6 +59,10 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
+        if ($job->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         return view('jobs.edit', ['job' => $job]);
     }
 
@@ -60,10 +71,14 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
+        if ($job->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $request->validate([
-                    'title' => ['required', 'max:255'],
-                    'salary' => 'required|numeric|max:50000',
-                ]);
+            'title' => ['required', 'max:255'],
+            'salary' => 'required|numeric|max:50000',
+        ]);
 
         $job->update($request->all());
         return redirect()->route('jobs.show', ['job' => $job]);
@@ -74,6 +89,10 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
+        if ($job->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
         $job->delete();
         return redirect('/jobs');
     }

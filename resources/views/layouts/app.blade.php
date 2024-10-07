@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>{{ $headerTitle ?? 'Laravel 11 example' }}</title>
     <!-- Scripts -->
-    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-    @vite('resources/js/app.js')
+    @vite(['resources/js/app.js'])
+
 </head>
 
 <body class="font-sans antialiased">

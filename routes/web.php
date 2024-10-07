@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('jobs', JobController::class)->middleware(['auth', 'verified']);
 
-Route::controller(PostController::class)->group(function () {
+Route::middleware(['auth', 'verified'])->controller(PostController::class)->group(function () {
     Route::get('/posts', 'index')->name('posts.index');
     Route::get('/posts/create', 'create')->name('posts.create');
     Route::get('/posts/{post}', 'show')->name('posts.show');
@@ -29,6 +29,6 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');
     Route::put('/posts/{post}', 'update')->name('posts.update');
     Route::delete('/posts/{post}', 'destroy')->name('posts.destroy');
-})->middleware(['auth', 'verified']);
+});
 
 require __DIR__ . '/auth.php';

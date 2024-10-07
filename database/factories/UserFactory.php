@@ -25,8 +25,12 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'address' => fake()->address(),
+            'gender' => fake()->randomElement(['male', 'female']),
             'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->e164PhoneNumber(),
             'email_verified_at' => now(),
+            'phone_verified_at' => now(),
             'role' => 'user',
             'is_active' => true,
             'photo' => fake()->imageUrl(200, 200),

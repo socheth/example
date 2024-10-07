@@ -1,4 +1,7 @@
-<x-app-layout headerTitle="Edit Job">
+<x-app-layout>
+    <x-slot name="headerTitle">
+        {{ __('Edit Job') }}
+    </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Edit Job') }}
@@ -45,7 +48,8 @@
 
     </form>
 
-    <form class="hidden" method="POST" id="delete-job-form" action="{{ route('jobs.destroy', ['job' => $job]) }}">
+    <form class="hidden" onsubmit="return confirm('Are you sure?')" method="POST" id="delete-job-form"
+        action="{{ route('jobs.destroy', ['job' => $job]) }}">
         @csrf
         @method('DELETE')
     </form>
