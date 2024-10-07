@@ -11,6 +11,10 @@ Route::get('/', function () {
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
 
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('index');
+
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
