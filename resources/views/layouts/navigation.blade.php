@@ -12,19 +12,19 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')">
+                    <x-nav-link :href="route('admin.jobs.index')" :active="request()->routeIs('admin.jobs.index')">
                         {{ __('Jobs') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                    <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('jobs.create')" :active="request()->routeIs('jobs.create')">
+                    <x-nav-link :href="route('admin.jobs.create')" :active="request()->routeIs('admin.jobs.create')">
                         {{ __('Create Job') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                    <x-nav-link :href="route('admin.posts.create')" :active="request()->routeIs('admin.posts.create')">
                         {{ __('Create Post') }}
                     </x-nav-link>
                 </div>
@@ -50,7 +50,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('admin.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -87,19 +87,19 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')">
+            <x-responsive-nav-link :href="route('admin.jobs.index')" :active="request()->routeIs('admin.jobs.index')">
                 {{ __('Jobs') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+            <x-responsive-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('jobs.create')" :active="request()->routeIs('jobs.create')">
+            <x-responsive-nav-link :href="route('admin.jobs.create')" :active="request()->routeIs('admin.jobs.create')">
                 {{ __('Create Job') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+            <x-responsive-nav-link :href="route('admin.posts.create')" :active="request()->routeIs('admin.posts.create')">
                 {{ __('Create Post') }}
             </x-responsive-nav-link>
         </div>
@@ -112,7 +112,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('admin.profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

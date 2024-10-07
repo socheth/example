@@ -9,7 +9,7 @@
     </x-slot>
 
     <form class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
-        action="{{ route('jobs.update', ['job' => $job]) }}">
+        action="{{ route('admin.jobs.update', ['job' => $job]) }}">
         @csrf
         @method('PATCH')
         <section class="flex flex-col w-full py-3">
@@ -41,7 +41,7 @@
         @endif
 
         <div class="flex justify-center w-full pt-4 pb-5">
-            <a href="{{ route('jobs.index') }}" class="rounded-md btn">Cancel</a>
+            <a href="{{ route('admin.jobs.index') }}" class="rounded-md btn">Cancel</a>
             <button type="submit" form="delete-job-form" class="rounded-md btn btn-danger">Trash</button>
             <button type="submit" class="rounded-md btn btn-primary">Update</button>
         </div>
@@ -49,7 +49,7 @@
     </form>
 
     <form class="hidden" onsubmit="return confirm('Are you sure?')" method="POST" id="delete-job-form"
-        action="{{ route('jobs.destroy', ['job' => $job]) }}">
+        action="{{ route('admin.jobs.destroy', ['job' => $job]) }}">
         @csrf
         @method('DELETE')
     </form>

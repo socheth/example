@@ -9,7 +9,7 @@
     </x-slot>
 
     <form enctype="multipart/form-data" class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
-        action="{{ route('posts.update', ['post' => $post]) }}">
+        action="{{ route('admin.posts.update', ['post' => $post]) }}">
         @csrf
         @method('PUT')
 
@@ -69,7 +69,7 @@
         </section>
 
         <div class="flex justify-center w-full pt-4 pb-5">
-            <a href="{{ route('posts.index') }}" class="rounded-md btn">Cancel</a>
+            <a href="{{ route('admin.posts.index') }}" class="rounded-md btn">Cancel</a>
             <button type="submit" class="rounded-md btn btn-primary">Update</button>
         </div>
     </form>

@@ -22,9 +22,9 @@
                         @foreach ($posts as $post)
                             <li>
                                 <a class="text-blue-400 hover:underline"
-                                    href="{{ route('posts.show', ['post' => $post]) }}">{{ $post->title }}
+                                    href="{{ route('admin.posts.slug', ['slug' => $post->slug]) }}">{{ $post->title }}
                                 </a>
-                                <x-button href="{{ route('posts.edit', ['post' => $post]) }}">Edit Post</x-button>
+                                <x-button href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit Post</x-button>
                             </li>
                         @endforeach
                     </ul>

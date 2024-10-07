@@ -47,7 +47,7 @@ class PostController extends Controller
 
         session()->flash('message', 'Your post has been created!');
 
-        return redirect('/posts');
+        return to_route('admin.posts');
     }
 
     /**
@@ -55,6 +55,17 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if ($post->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        return view('posts.show', ['post' => $post]);
+    }
+
+    public function showBySlug(string $slug)
+    {
+        $post = Post::where('slug', $slug)->firstOrFail();
+
         if ($post->user_id !== auth()->user()->id) {
             abort(403);
         }
@@ -101,7 +112,9 @@ class PostController extends Controller
         $post->slug = Str::slug(request('title'));
         $post->save();
 
-        return redirect('/posts');
+        session()->flash('message', 'Your post has been updated!');
+
+        return to_route('admin.posts.index');
     }
 
     /**
@@ -114,6 +127,9 @@ class PostController extends Controller
         }
 
         $post->delete();
-        return redirect('/posts');
+
+        session()->flash('message', 'Your post has been deleted!');
+
+        return to_route('admin.posts.index');
     }
 }

@@ -15,10 +15,10 @@
                     <p class="text-2xl dark:text-red-400">{{ Number::currency($job->salary) }}</p>
 
                     <div class="flex mt-4">
-                        <x-button href="{{ route('jobs.index') }}" class="mr-2">Back</x-button>
-                        <x-button href="{{ route('jobs.edit', ['job' => $job]) }}">Edit Job</x-button>
+                        <x-button href="{{ route('admin.jobs.index') }}" class="mr-2">Back</x-button>
+                        <x-button href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit Job</x-button>
                         <form method="POST" onsubmit="return confirm('Are you sure?')"
-                            action="{{ route('jobs.destroy', ['job' => $job]) }}">
+                            action="{{ route('admin.jobs.destroy', ['job' => $job]) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="rounded-md btn btn-danger">Trash</button>

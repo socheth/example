@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Session;
 
 class RegisteredUserController extends Controller
 {
@@ -20,6 +21,17 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        if (url()->previous() != url()->current()) {
+
+            Session::put('beforeregister', url()->previous());
+
+            // Redirect::setIntendedUrl(url()->previous());
+
+        } elseif (url()->previous() == url()->current()) {
+
+            Session::put('beforeregister', redirect()->intended(route('dashboard', absolute: false)));
+        }
+
         return view('auth.register');
     }
 

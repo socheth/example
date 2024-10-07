@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -39,7 +38,7 @@ class JobController extends Controller
 
         session()->flash('message', 'Your job has been created!');
 
-        return redirect('/jobs');
+        return to_route('admin.jobs.index');
     }
 
     /**
@@ -47,7 +46,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        if ($job->user_id !== auth()->user()->id) {
+        if ($job->user()->isNot(auth()->user())) {
             abort(403);
         }
 
@@ -81,7 +80,10 @@ class JobController extends Controller
         ]);
 
         $job->update($request->all());
-        return redirect()->route('jobs.show', ['job' => $job]);
+
+        session()->flash('message', 'Your job has been updated!');
+
+        return to_route('admin.jobs.index', ['job' => $job]);
     }
 
     /**
@@ -94,6 +96,9 @@ class JobController extends Controller
         }
 
         $job->delete();
-        return redirect('/jobs');
+
+        session()->flash('message', 'Your job has been deleted!');
+
+        return to_route('admin.jobs.index');
     }
 }
