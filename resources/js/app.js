@@ -1,5 +1,7 @@
 import './bootstrap';
-import 'preline';
+// import 'preline';
+
+import.meta.glob(['../images/**']);
 
 import Alpine from 'alpinejs';
 

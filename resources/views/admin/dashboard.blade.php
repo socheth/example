@@ -14,6 +14,8 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __('Your role is:') }}
                     <span class="font-bold text-blue-400">{{ auth()->user()->role }}</span>
+
+
                 </div>
             </div>
         </div>

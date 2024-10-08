@@ -1,3 +1,5 @@
-<x-layout :heading="'About Page'">
-    About Us
-</x-layout>
+<x-template>
+
+    <x-slot name="headerTitle">About Us</x-slot>
+
+</x-template>

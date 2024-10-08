@@ -1,14 +1,13 @@
-<x-layout headerTitle="Home Page">
-    <x-slot:heading>
-        Home Page
-    </x-slot:heading>
+<x-frontend-layout headerTitle="Home Page">
 
-    <ol class="leading-8 list-decimal list-inside dark:text-white">
-        @foreach ($users as $user)
-            <li>
-                <span class="text-yellow-400">{{ $user->name }}</span>
-            </li>
-        @endforeach
-    </ol>
+    @auth
+        <a href="{{ route('admin.index') }}">Dashboard</a>
+        <img src="{{ Vite::asset('resources/images/1.webp') }}" alt="User Image" class="w-24 h-24">
+    @endauth
 
-</x-layout>
+    @guest
+        <a href="{{ route('login') }}">Login</a>
+        <a href="{{ route('register') }}">Register</a>
+    @endguest
+
+</x-frontend-layout>

@@ -1,13 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\JobController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\ProfileController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('home');
+
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
+
+Route::resource('jobs', App\Http\Controllers\JobController::class)->only(['index', 'show']);
+Route::resource('posts', App\Http\Controllers\PostController::class)->only(['index', 'show']);
+Route::resource('companies', App\Http\Controllers\CompanyController::class)->only(['index', 'show']);
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
 
@@ -24,6 +32,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('jobs', JobController::class);
+    Route::resource('companies', CompanyController::class);
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');

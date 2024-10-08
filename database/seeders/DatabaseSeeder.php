@@ -15,9 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
-        $this->call(PostSeeder::class);
-        $this->call(JobSeeder::class);
-
         User::factory()->create([
             'name' => 'Admin',
             'slug' => 'admin',
@@ -33,5 +30,10 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
             'remember_token' => Str::random(10),
         ]);
+
+        $this->call(CompanySeeder::class);
+        $this->call(PostSeeder::class);
+        $this->call(JobSeeder::class);
+
     }
 }

@@ -17,16 +17,16 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'slug',
-        'phone',
-        'email',
-        'password',
-        'role',
-        'is_active',
-        'photo',
-        'address',
-        'gender',
+        "name",
+        "slug",
+        "phone",
+        "email",
+        "password",
+        "role",
+        "is_active",
+        "photo",
+        "address",
+        "gender",
     ];
 
     /**
@@ -34,10 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * Get the attributes that should be cast.
@@ -47,8 +44,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
@@ -62,13 +59,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Post::class);
     }
 
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
+
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === "admin";
     }
 
     public function isUser(): bool
     {
-        return $this->role === 'user';
+        return $this->role === "user";
     }
 }
