@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Job;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -30,12 +31,29 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $request = request()->validate([
+
+        $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'salary' => 'required|numeric|max:50000',
+            'company_id' => 'required|exists:companies,id',
+            'salary' => 'required|numeric',
+            'type' => 'required',
+            'description' => 'required',
+            'requirements' => 'required',
+            'benefits' => 'required',
+            'apply_url' => 'nullable|url',
+            'category' => 'required',
+            'location' => 'required',
+            'experience' => 'required',
+            'deadline' => 'required|date',
+            'status' => 'required',
         ]);
 
-        auth()->user()->jobs()->create($request);
+        $request['is_active'] = $request['is_active'] ?? false;
+        $request['is_featured'] = $request['is_featured'] ?? false;
+
+        $request['slug'] = Str::slug(request('title'));
+
+        auth()->user()->jobs()->create($request->all());
 
         session()->flash('message', 'Your job has been created!');
 
@@ -76,8 +94,19 @@ class JobController extends Controller
         }
 
         $request->validate([
-            'title' => ['required', 'max:255'],
-            'salary' => 'required|numeric|max:50000',
+            'title' => ['required', 'string', 'max:255'],
+            'company_id' => 'required|exists:companies,id',
+            'salary' => 'required|numeric',
+            'type' => 'required',
+            'description' => 'required',
+            'requirements' => 'required',
+            'benefits' => 'required',
+            'apply_url' => 'nullable|url',
+            'category' => 'required',
+            'location' => 'required',
+            'experience' => 'required',
+            'deadline' => 'required|date',
+            'status' => 'required',
         ]);
 
         $job->update($request->all());

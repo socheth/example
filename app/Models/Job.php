@@ -16,10 +16,19 @@ class Job extends Model
         "title",
         "slug",
         "salary",
-        "body",
+        "is_active",
+        "category",
+        "location",
+        "type",
+        "status",
+        "experience",
+        "deadline",
+        "is_featured",
+        "apply_url",
+        "benefits",
+        "requirements",
+        "description",
     ];
-
-    protected $table = "job_listings";
 
     public function user()
     {

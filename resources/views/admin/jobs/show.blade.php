@@ -14,6 +14,10 @@
                     <p class="mb-4 text-3xl dark:text-blue-400">{{ $job->title }}</p>
                     <p class="text-2xl dark:text-red-400">{{ Number::currency($job->salary) }}</p>
 
+                    <article class="my-6">{{ $job->requirements }}</article>
+                    <article class="my-6">{{ $job->description }}</article>
+                    <article class="my-6">{{ $job->benefits }}</article>
+
                     <div class="flex mt-4">
                         <x-button href="{{ route('admin.jobs.index') }}" class="mr-2">Back</x-button>
                         <x-button href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit Job</x-button>
