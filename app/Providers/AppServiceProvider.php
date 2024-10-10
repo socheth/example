@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::preventLazyLoading();
-        // Paginator::useBootstrapFour();
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }
