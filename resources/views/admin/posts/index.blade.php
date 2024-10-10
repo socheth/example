@@ -20,11 +20,11 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <ul class="leading-8 list-disc list-inside dark:text-white">
                         @foreach ($posts as $post)
-                            <li>
+                            <li class="flex items-center justify-between mb-2">
                                 <a class="text-blue-400 hover:underline"
-                                    href="{{ route('admin.posts.slug', ['slug' => $post->slug]) }}">{{ $post->title }}
+                                    href="{{ route('admin.posts.show', ['post' => $post]) }}">{{ $post->title }}
                                 </a>
-                                <x-button href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit Post</x-button>
+                                <x-button href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-button>
                             </li>
                         @endforeach
                     </ul>

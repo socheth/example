@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Company;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
@@ -14,7 +15,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.companies.index', ['companies' => auth()->user()->companies()->latest('id')->paginate(10)]);
     }
 
     /**
@@ -22,7 +23,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.companies.create');
     }
 
     /**
@@ -30,7 +31,19 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        $request = $request->all();
+
+        if (isset($request['logo'])) {
+            $request['logo'] = request('logo')->store('companies', 'public');
+            $request['logo'] = asset('storage/' . $request['logo']);
+        }
+
+        $request['slug'] = Str::slug(request('name'));
+        auth()->user()->companies()->create($request);
+
+        session()->flash('message', 'Your company has been created!');
+
+        return redirect()->route('admin.companies.index');
     }
 
     /**
@@ -38,7 +51,11 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        //
+        if ($company->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        return view('admin.companies.show', ['company' => $company]);
     }
 
     /**
@@ -46,7 +63,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        //
+        if ($company->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        return view('admin.companies.edit', ['company' => $company]);
     }
 
     /**
@@ -54,7 +75,23 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        if ($company->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        $request = $request->all();
+        $request['slug'] = Str::slug(request('name'));
+
+        if (isset($request['logo'])) {
+            $request['logo'] = $request['logo']->store('companies', 'public');
+            $request['logo'] = asset('storage/' . $request['logo']);
+        }
+
+        $company->update($request);
+
+        session()->flash('message', 'Your company has been updated!');
+
+        return redirect()->route('admin.companies.index');
     }
 
     /**
@@ -62,6 +99,14 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        //
+        if ($company->user_id !== auth()->user()->id) {
+            abort(403);
+        }
+
+        $company->delete();
+
+        session()->flash('message', 'Your company has been deleted!');
+
+        return redirect()->route('admin.companies.index');
     }
 }

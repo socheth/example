@@ -95,7 +95,7 @@ class PostController extends Controller
             abort(403);
         }
 
-        $request->validate([
+        $request = request()->validate([
             'title' => ['required', 'max:255'],
             'body' => 'required',
             'category' => 'required',
@@ -103,15 +103,13 @@ class PostController extends Controller
         ]);
 
         if (isset($request['image'])) {
-            $post->image = request()->file('image')->store('posts', 'public');
-            $post->image = asset('storage/' . $post->image);
+            $request['image'] = request('image')->store('posts', 'public');
+            $request['image'] = asset('storage/' . $request['image']);
         }
 
-        $post->title = request('title');
-        $post->body = request('body');
-        $post->category = request('category');
-        $post->slug = Str::slug(request('title'));
-        $post->save();
+        $request['slug'] = Str::slug(request('title'));
+
+        $post->update($request);
 
         session()->flash('message', 'Your post has been updated!');
 

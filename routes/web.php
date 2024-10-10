@@ -14,8 +14,11 @@ Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');
 
 Route::resource('jobs', App\Http\Controllers\JobController::class)->only(['index', 'show']);
+Route::get('/jobs/{slug}/{id}', [App\Http\Controllers\JobController::class, 'showBySlug'])->name('jobs.slug');
 Route::resource('posts', App\Http\Controllers\PostController::class)->only(['index', 'show']);
+Route::get('/posts/{slug}/{id}', [App\Http\Controllers\PostController::class, 'showBySlug'])->name('posts.slug');
 Route::resource('companies', App\Http\Controllers\CompanyController::class)->only(['index', 'show']);
+Route::get('/companies/{slug}/{id}', [App\Http\Controllers\CompanyController::class, 'showBySlug'])->name('companies.slug');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
 
@@ -37,7 +40,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');
         Route::get('/posts/create', 'create')->name('posts.create');
-        Route::get('/posts/{slug}', 'showBySlug')->name('posts.slug');
         Route::get('/posts/{post}', 'show')->name('posts.show');
         Route::post('/posts', 'store')->name('posts.store');
         Route::get('/posts/{post}/edit', 'edit')->name('posts.edit');

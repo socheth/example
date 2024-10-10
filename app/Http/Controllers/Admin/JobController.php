@@ -31,7 +31,6 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'company_id' => 'required|exists:companies,id',
@@ -48,8 +47,8 @@ class JobController extends Controller
             'status' => 'required',
         ]);
 
-        $request['is_active'] = $request['is_active'] ?? false;
-        $request['is_featured'] = $request['is_featured'] ?? false;
+        $request['is_active'] ??= false;
+        $request['is_featured'] ??= false;
 
         $request['slug'] = Str::slug(request('title'));
 
@@ -108,6 +107,11 @@ class JobController extends Controller
             'deadline' => 'required|date',
             'status' => 'required',
         ]);
+
+        $request['is_active'] ??= false;
+        $request['is_featured'] ??= false;
+
+        $request['slug'] = Str::slug(request('title'));
 
         $job->update($request->all());
 

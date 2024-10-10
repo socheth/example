@@ -10,7 +10,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <title>{{ $headerTitle ?? 'Laravel 11 example' }}</title>
-    <!-- Scripts -->
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -35,7 +35,7 @@
         </main>
     </div>
 
-    @stack('other-scripts')
+    @stack('scripts')
 </body>
 
 </html>

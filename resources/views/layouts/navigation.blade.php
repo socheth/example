@@ -21,11 +21,17 @@
                     <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
+                        {{ __('Companies') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('admin.jobs.create')" :active="request()->routeIs('admin.jobs.create')">
                         {{ __('Create Job') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.posts.create')" :active="request()->routeIs('admin.posts.create')">
                         {{ __('Create Post') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.companies.create')" :active="request()->routeIs('admin.companies.create')">
+                        {{ __('Create Company') }}
                     </x-nav-link>
                 </div>
             </div>

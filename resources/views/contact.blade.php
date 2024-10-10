@@ -1,3 +1,3 @@
-<x-template>
+<x-frontend-layout>
     <x-slot name="headerTitle">Contact Us</x-slot>
-</x-template>
+</x-frontend-layout>

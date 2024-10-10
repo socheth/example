@@ -28,7 +28,7 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isUser();
     }
 
     /**
@@ -36,7 +36,7 @@ class CompanyPolicy
      */
     public function update(User $user, Company $company): bool
     {
-        //
+        return $user->isUser();
     }
 
     /**

@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
 
-    <form class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
+    <form class="w-full py-12 mx-auto text-sm text-gray-700 lg:max-w-2xl" method="POST"
         action="{{ route('admin.jobs.update', ['job' => $job]) }}">
         @csrf
         @method('PATCH')
@@ -111,13 +111,14 @@
                     <span class="mt-2 text-sm text-red-500">{{ $errors->first('deadline') }}</span>
                 </div>
 
-                <div class="flex-col hidden w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="apply_url">Apply Url</label>
-                    <input
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="url" name="apply_url" id="apply_url" value="{{ $job->apply_url }}" />
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('apply_url') }}</span>
-                </div>
+            </div>
+
+            <div class="flex flex-col w-full field-group">
+                <label class="mb-1 field-label required dark:text-white" for="apply_url">Apply Url</label>
+                <input
+                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
+                    type="url" name="apply_url" id="apply_url" value="{{ $job->apply_url }}" />
+                <span class="mt-2 text-sm text-red-500">{{ $errors->first('apply_url') }}</span>
             </div>
 
             <div class="flex justify-between w-full gap-4">
@@ -179,7 +180,7 @@
         @method('DELETE')
     </form>
 
-    @pushOnce('other-scripts')
+    @pushOnce('scripts')
         <script>
             document.getElementById('category').value = '{{ $job->category }}';
             document.getElementById('type').value = '{{ $job->type }}';

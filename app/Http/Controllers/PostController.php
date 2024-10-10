@@ -11,7 +11,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index', ['posts' => auth()->user()->posts()->latest('id')->simplePaginate(10)]);
+        return view('posts.index', ['posts' => Post::query()->latest('id')->paginate(10)]);
     }
 
     /**
@@ -19,20 +19,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
-            abort(403);
-        }
-
         return view('posts.show', ['post' => $post]);
     }
 
-    public function showBySlug(string $slug)
+    public function showBySlug(string $slug, int $id)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
-
-        if ($post->user_id !== auth()->user()->id) {
-            abort(403);
-        }
+        $post = Post::query()->findOrFail($id);
 
         return view('posts.show', ['post' => $post]);
     }

@@ -25,19 +25,12 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => [
-                'required',
-                'string',
-                'lowercase',
-                'max:50',
-                Rule::unique(Company::class)->ignore($this->company->id),
-            ],
             'address' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
             'website' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(Company::class)->ignore($this->company->id)],
-            'logo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'logo' => ['nullable', 'image'],
         ];
     }
 }

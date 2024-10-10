@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
 
-    <form enctype="multipart/form-data" class="w-1/2 py-12 mx-auto text-sm text-gray-700" method="POST"
+    <form enctype="multipart/form-data" class="w-full py-12 mx-auto text-sm text-gray-700 lg:max-w-2xl" method="POST"
         action="{{ route('admin.posts.update', ['post' => $post]) }}">
         @csrf
         @method('PUT')
@@ -68,13 +68,13 @@
 
         </section>
 
-        <div class="flex justify-center w-full pt-4 pb-5">
+        <div class="sticky bottom-0 flex justify-center w-full pt-4 pb-5">
             <a href="{{ route('admin.posts.index') }}" class="rounded-md btn">Cancel</a>
             <button type="submit" class="rounded-md btn btn-primary">Update</button>
         </div>
     </form>
 
-    @pushOnce('other-scripts')
+    @pushOnce('scripts')
         <script>
             document.getElementById('category').value = '{{ $post->category }}';
         </script>

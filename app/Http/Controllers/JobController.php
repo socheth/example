@@ -11,7 +11,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        return view('jobs.index', ['jobs' => auth()->user()->jobs()->latest('id')->paginate(10)]);
+        return view('jobs.index', ['jobs' => Job::query()->latest('id')->latest('id')->paginate(10)]);
     }
 
     /**
@@ -19,9 +19,12 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        if ($job->user()->isNot(auth()->user())) {
-            abort(403);
-        }
+        return view('jobs.show', ['job' => $job]);
+    }
+
+    public function showBySlug(string $slug, int $id)
+    {
+        $job = Job::query()->findOrFail($id);
 
         return view('jobs.show', ['job' => $job]);
     }

@@ -1,5 +1,3 @@
-<x-template>
-
+<x-frontend-layout>
     <x-slot name="headerTitle">About Us</x-slot>
-
-</x-template>
+</x-frontend-layout>
