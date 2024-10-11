@@ -25,12 +25,11 @@
                                     href="{{ route('admin.companies.show', ['company' => $company]) }}">{{ $company->name }}
                                 </a>
                                 <div class="flex justify-end ms-auto">
-                                    <x-button
-                                        href="{{ route('admin.companies.edit', ['company' => $company]) }}">Edit</x-button>
+                                    <x-admin.button-link
+                                        href="{{ route('admin.companies.edit', ['company' => $company]) }}">Edit</x-admin.button-link>
                                     <form onsubmit="return confirm('Are you sure?')" method="POST" id="delete-job-form"
                                         action="{{ route('admin.companies.destroy', ['company' => $company]) }}">
-                                        <button type="submit" form="delete-job-form"
-                                            class="rounded-md btn btn-danger">Trash</button>
+                                        <x-danger-button type="submit" form="delete-job-form">Trash</x-danger-button>
                                         @csrf
                                         @method('DELETE')
                                     </form>

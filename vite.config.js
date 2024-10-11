@@ -11,9 +11,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        manifest: true,
-        minify: true,
-        sourcemap: false,
-    },
+
 });

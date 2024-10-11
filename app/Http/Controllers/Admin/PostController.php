@@ -48,7 +48,7 @@ class PostController extends Controller
 
         session()->flash('message', 'Your post has been created!');
 
-        return to_route('admin.posts.index');
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -113,7 +113,7 @@ class PostController extends Controller
 
         session()->flash('message', 'Your post has been updated!');
 
-        return to_route('admin.posts.index');
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -129,6 +129,6 @@ class PostController extends Controller
 
         session()->flash('message', 'Your post has been deleted!');
 
-        return to_route('admin.posts.index');
+        return redirect()->route('admin.posts.index');
     }
 }
