@@ -23,9 +23,11 @@
                             <li class="flex items-center justify-between mb-2">
                                 <a class="text-blue-400 hover:underline"
                                     href="{{ route('admin.jobs.show', ['job' => $job]) }}">{{ $job->title }}
-                                    <span class="text-sm text-red-600">({{ Number::currency($job->salary) }})</span>
+                                    <span
+                                        class="text-sm text-red-600">({{ is_numeric($job->salary) ? Number::currency($job->salary) : $job->salary }})</span>
                                 </a>
-                                <x-button href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit</x-button>
+                                <x-admin.button-link
+                                    href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit</x-admin.button-link>
                             </li>
                         @endforeach
                     </ul>

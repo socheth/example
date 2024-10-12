@@ -12,158 +12,128 @@
         action="{{ route('admin.jobs.store') }}">
         @csrf
 
-        <section class="flex flex-col w-full gap-4 p-5 bg-white rounded-md dark:bg-gray-700 shadow-card">
+        <x-admin.form.card>
 
             <div class="flex flex-col w-full field-group">
-                <label class="mb-1 field-label required dark:text-white" for="title">Title</label>
-                <input
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    type="text" name="title" id="title" placeholder="PHP Developer" />
-                <span class="mt-2 text-sm text-red-500">{{ $errors->first('title') }}</span>
+                <x-input-label for="title" :value="__('Title')" class="required" />
+                <x-text-input name="title" id="title" placeholder="PHP Developer" :value="old('title')" />
+                <x-input-error class="mt-2" :messages="$errors->get('title')" />
             </div>
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="experience">Experience</label>
-                    <input
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="text" name="experience" id="experience" placeholder="1 year" />
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('experience') }}</span>
+                    <x-input-label for="title" :value="__('Experience')" class="required" />
+                    <x-text-input name="experience" id="experience" placeholder="1 year" :value="old('experience')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('experience')" />
                 </div>
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="salary">Salary</label>
-                    <input
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="number" name="salary" id="salary" placeholder="Negotiable" />
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('salary') }}</span>
+                    <x-input-label for="salary" :value="__('Salary')" class="required" />
+                    <x-text-input name="salary" id="salary" placeholder="Negotiable" :value="old('salary')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('salary')" />
                 </div>
             </div>
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="type">Type</label>
-                    <select name="type" id="type"
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
+                    <x-input-label for="type" :value="__('Type')" class="required" />
+                    <x-admin.form.select name="type" id="type">
                         <option value="">Choose type</option>
                         <option value="Full Time" selected>Full Time</option>
                         <option value="Part Time">Part Time</option>
                         <option value="Contract">Contract</option>
                         <option value="Internship">Internship</option>
-                    </select>
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('type') }}</span>
+                    </x-admin.form.select>
+                    <x-input-error class="mt-2" :messages="$errors->get('type')" />
                 </div>
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="category">Category</label>
-                    <select name="category" id="category"
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
+                    <x-input-label for="category" :value="__('Category')" class="required" />
+                    <x-admin.form.select name="category" id="category">
                         <option value="">Choose category</option>
                         <option value="IT">IT</option>
                         <option value="Marketing">Marketing</option>
                         <option value="HR">HR</option>
-                    </select>
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('category') }}</span>
+                    </x-admin.form.select>
+                    <x-input-error class="mt-2" :messages="$errors->get('category')" />
                 </div>
             </div>
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="status">Status</label>
-                    <select name="status" id="status"
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
+                    <x-input-label for="category" :value="__('Status')" class="required" />
+                    <x-admin.form.select name="status" id="status">
                         <option value="">Choose status</option>
                         <option value="Open" selected>Open</option>
                         <option value="Closed">Closed</option>
-                    </select>
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('status') }}</span>
+                    </x-admin.form.select>
+                    <x-input-error class="mt-2" :messages="$errors->get('status')" />
                 </div>
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="company">Company</label>
-                    <select name="company_id" id="company"
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600">
+                    <x-input-label for="company" :value="__('Company')" class="required" />
+                    <x-admin.form.select name="company" id="company">
                         <option value="">Choose company</option>
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                    </select>
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('company_id') }}</span>
+                        @foreach ($companies as $company)
+                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                        @endforeach
+                    </x-admin.form.select>
+                    <x-input-error class="mt-2" :messages="$errors->get('company')" />
                 </div>
-
             </div>
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="location">Location</label>
-                    <input
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                        type="text" name="location" id="location" placeholder="Remote" />
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('location') }}</span>
+                    <x-input-label for="location" :value="__('Location')" class="required" />
+                    <x-text-input name="location" id="location" placeholder="Remote" :value="old('location')" />
+                    <x-input-error class="mt-2" :messages="$errors->get('location')" />
                 </div>
 
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label class="mb-1 field-label required dark:text-white" for="deadline">Deadline</label>
-                    <input type="date" name="deadline" id="deadline"
-                        value="{{ old('deadline') ?? date('Y-m-d', strtotime('+1 month')) }}"
-                        class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600" />
-                    <span class="mt-2 text-sm text-red-500">{{ $errors->first('deadline') }}</span>
+                    <x-input-label for="deadline" :value="__('Deadline')" class="required" />
+                    <x-text-input type="date" name="deadline" id="deadline" :value="old('deadline') ?? date('Y-m-d', strtotime('+1 month'))" />
+                    <x-input-error class="mt-2" :messages="$errors->get('deadline')" />
                 </div>
-
             </div>
 
             <div class="flex flex-col w-full field-group">
-                <label class="mb-1 field-label required dark:text-white" for="apply_url">Apply Url</label>
-                <input
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    type="url" name="apply_url" id="apply_url" />
-                <span class="mt-2 text-sm text-red-500">{{ $errors->first('apply_url') }}</span>
+                <x-input-label for="apply_url" :value="__('Apply Url')" />
+                <x-text-input type="url" name="apply_url" id="apply_url" :value="old('apply_url')" />
+                <x-input-error class="mt-2" :messages="$errors->get('apply_url')" />
             </div>
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label for="is_active" class="inline-flex items-center">
-                        <input id="is_active" type="checkbox"
-                            class="text-blue-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-blue-500 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800"
-                            name="is_active">
-                        <span class="text-sm text-gray-600 ms-2 dark:text-gray-400">{{ __('Is Active') }}</span>
-                    </label>
+                    <x-admin.form.checkbox id="is_active" name="is_active" :label="__('Is Active')" :checked="old('is_active')" />
                 </div>
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <label for="is_featured" class="inline-flex items-center">
-                        <input id="is_featured" type="checkbox"
-                            class="text-indigo-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                            name="is_featured">
-                        <span class="text-sm text-gray-600 ms-2 dark:text-gray-400">{{ __('Is Featured') }}</span>
-                    </label>
+                    <x-admin.form.checkbox id="is_featured" name="is_featured" :label="__('Is Featured')" :checked="old('is_featured')" />
                 </div>
             </div>
 
-            <div class="flex flex-col w-full mb-4 field-group">
-                <label class="mb-1 field-label required dark:text-white" for="description">Description</label>
-                <textarea rows="10"
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    name="description" id="description">{{ old('description') }}</textarea>
-                <span class="mt-2 text-sm text-red-500">{{ $errors->first('description') }}</span>
+            <div class="flex flex-col w-full field-group">
+                <x-input-label for="description" :value="__('Description')" class="required" />
+                <x-admin.form.textarea rows="10" name="description"
+                    id="description">{{ old('description') }}</x-admin.form.textarea>
+                <x-input-error class="mt-2" :messages="$errors->get('description')" />
             </div>
 
-            <div class="flex flex-col w-full mb-4 field-group">
-                <label class="mb-1 field-label required dark:text-white" for="requirements">Requirements</label>
-                <textarea rows="10"
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    name="requirements" id="requirements">{{ old('requirements') }}</textarea>
-                <span class="mt-2 text-sm text-red-500">{{ $errors->first('requirements') }}</span>
+            <div class="flex flex-col w-full field-group">
+                <x-input-label for="requirements" :value="__('Requirements')" class="required" />
+                <x-admin.form.textarea rows="10" name="requirements"
+                    id="requirements">{{ old('requirements') }}</x-admin.form.textarea>
+                <x-input-error class="mt-2" :messages="$errors->get('requirements')" />
             </div>
 
-            <div class="flex flex-col w-full mb-4 field-group">
-                <label class="mb-1 field-label dark:text-white" for="benefits">Benefits</label>
-                <textarea rows="10"
-                    class="border rounded-md field text-grey-700 dark:text-white dark:bg-gray-800 dark:border-gray-600"
-                    name="benefits" id="benefits">{{ old('benefits') }}</textarea>
-                <span class="mt-2 text-sm text-red-500">{{ $errors->first('benefits') }}</span>
+            <div class="flex flex-col w-full field-group">
+                <x-input-label for="benefits" :value="__('Benefits')" class="required" />
+                <x-admin.form.textarea rows="10" name="benefits"
+                    id="benefits">{{ old('benefits') }}</x-admin.form.textarea>
+                <x-input-error class="mt-2" :messages="$errors->get('benefits')" />
             </div>
 
-        </section>
+        </x-admin.form.card>
 
         <div class="sticky bottom-0 flex justify-center w-full pt-4 pb-5">
-            <a href="{{ route('admin.jobs.index') }}" class="rounded-md btn">Cancel</a>
-            <button type="submit" class="rounded-md btn btn-primary">Save</button>
+            <x-admin.button-link href="{{ route('admin.jobs.index') }}">Cancel</x-admin.button-link>
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
         </div>
 
     </form>
@@ -172,7 +142,7 @@
         <script>
             document.getElementById('category').value = '{{ old('category') }}';
             document.getElementById('status').value = '{{ old('status') }}';
-            document.getElementById('company').value = '{{ old('company_id') }}';
+            document.getElementById('company').value = '{{ old('company') }}';
             document.getElementById('type').value = '{{ old('type') }}';
         </script>
     @endpush

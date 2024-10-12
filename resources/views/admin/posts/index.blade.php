@@ -24,7 +24,8 @@
                                 <a class="text-blue-400 hover:underline"
                                     href="{{ route('admin.posts.show', ['post' => $post]) }}">{{ $post->title }}
                                 </a>
-                                <x-button href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-button>
+                                <x-admin.button-link
+                                    href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-admin.button-link>
                             </li>
                         @endforeach
                     </ul>

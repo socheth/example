@@ -15,14 +15,15 @@
                     <p class="mb-4 text-3xl dark:text-blue-400">{{ $company->name }}</p>
                     <p class="mb-4 text-gray-400">{{ $company->description }}</p>
                     <div class="flex mt-4">
-                        <x-button href="{{ route('admin.companies.index') }}" class="mr-2">Back</x-button>
-                        <x-button href="{{ route('admin.companies.edit', ['company' => $company]) }}">Edit
-                            Post</x-button>
+                        <x-admin.button-link href="{{ route('admin.companies.index') }}"
+                            class="mr-2">Back</x-admin.button-link>
+                        <x-admin.button-link href="{{ route('admin.companies.edit', ['company' => $company]) }}">Edit
+                            Post</x-admin.button-link>
                         <form method="POST" onsubmit="return confirm('Are you sure?')"
                             action="{{ route('admin.companies.destroy', ['company' => $company]) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="rounded-md btn btn-danger">Trash</button>
+                            <x-danger-button>Trash</x-danger-button>
                         </form>
                     </div>
                     <img class="block w-full max-w-lg mt-5" src="{{ $company->logo }}" alt="Company Logo">

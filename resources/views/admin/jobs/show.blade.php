@@ -12,20 +12,23 @@
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <p class="mb-4 text-3xl dark:text-blue-400">{{ $job->title }}</p>
-                    <p class="text-2xl dark:text-red-400">{{ Number::currency($job->salary) }}</p>
+                    <p class="text-2xl dark:text-red-400">
+                        {{ is_numeric($job->salary) ? Number::currency($job->salary) : $job->salary }}</p>
 
                     <article class="my-6">{{ $job->requirements }}</article>
                     <article class="my-6">{{ $job->description }}</article>
                     <article class="my-6">{{ $job->benefits }}</article>
 
                     <div class="flex mt-4">
-                        <x-button href="{{ route('admin.jobs.index') }}" class="mr-2">Back</x-button>
-                        <x-button href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit Job</x-button>
+                        <x-admin.button-link href="{{ route('admin.jobs.index') }}"
+                            class="mr-2">Back</x-admin.button-link>
+                        <x-admin.button-link href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit
+                            Job</x-admin.button-link>
                         <form method="POST" onsubmit="return confirm('Are you sure?')"
                             action="{{ route('admin.jobs.destroy', ['job' => $job]) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="rounded-md btn btn-danger">Trash</button>
+                            <x-danger-button>Trash</x-danger-button>
                         </form>
                     </div>
 

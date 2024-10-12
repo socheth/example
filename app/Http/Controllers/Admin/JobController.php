@@ -23,7 +23,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return view('admin.jobs.create');
+        return view('admin.jobs.create', ['companies' => auth()->user()->companies()->latest()->get()]);
     }
 
     /**
@@ -33,8 +33,8 @@ class JobController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'company_id' => 'required|exists:companies,id',
-            'salary' => 'required|numeric',
+            'company' => 'required|exists:companies,id',
+            'salary' => 'required',
             'type' => 'required',
             'description' => 'required',
             'requirements' => 'required',
@@ -47,9 +47,9 @@ class JobController extends Controller
             'status' => 'required',
         ]);
 
+        $request['company_id'] = $request['company'];
         $request['is_active'] ??= false;
         $request['is_featured'] ??= false;
-
         $request['slug'] = Str::slug(request('title'));
 
         auth()->user()->jobs()->create($request->all());
@@ -80,7 +80,7 @@ class JobController extends Controller
             abort(403);
         }
 
-        return view('admin.jobs.edit', ['job' => $job]);
+        return view('admin.jobs.edit', ['job' => $job, 'companies' => auth()->user()->companies()->latest()->get()]);
     }
 
     /**
@@ -94,8 +94,8 @@ class JobController extends Controller
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'company_id' => 'required|exists:companies,id',
-            'salary' => 'required|numeric',
+            'company' => 'required|exists:companies,id',
+            'salary' => 'required',
             'type' => 'required',
             'description' => 'required',
             'requirements' => 'required',
@@ -108,9 +108,9 @@ class JobController extends Controller
             'status' => 'required',
         ]);
 
+        $request['company_id'] = $request['company'];
         $request['is_active'] ??= false;
         $request['is_featured'] ??= false;
-
         $request['slug'] = Str::slug(request('title'));
 
         $job->update($request->all());
