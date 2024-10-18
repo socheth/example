@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="headerTitle">
-        {{ __('All Posts') }}
+        {{ __('All Users') }}
     </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('All Posts') }}
+            {{ __('All Users') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -19,18 +19,18 @@
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <ul class="leading-8 list-disc list-inside dark:text-white">
-                        @foreach ($posts as $post)
+                        @foreach ($users as $user)
                             <li class="flex items-center justify-between mb-2">
                                 <a class="text-blue-400 hover:underline"
-                                    href="{{ route('admin.posts.show', ['post' => $post]) }}">{{ $post->title }}
+                                    href="{{ route('admin.users.show', ['user' => $user]) }}">{{ $user->name }}
                                 </a>
                                 <x-admin.button-link
-                                    href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-admin.button-link>
+                                    href="{{ route('admin.users.edit', ['user' => $user]) }}">Edit</x-admin.button-link>
                             </li>
                         @endforeach
                     </ul>
 
-                    {{ $posts->links() }}
+                    {{ $users->links() }}
 
                 </div>
             </div>

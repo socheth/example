@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -14,6 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
+        if (!Gate::allows('viewAny', Post::class)) {
+            abort(403);
+        }
+
         return view('admin.posts.index', ['posts' => auth()->user()->posts()->latest('id')->simplePaginate(10)]);
     }
 
@@ -22,6 +27,10 @@ class PostController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('create', Post::class)) {
+            abort(403);
+        }
+
         return view('admin.posts.create');
     }
 
@@ -30,6 +39,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create', Post::class)) {
+            abort(403);
+        }
+
         $request = request()->validate([
             'title' => ['required', 'max:255'],
             'body' => 'required',
@@ -56,7 +69,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
+        if (!Gate::allows('view', $post)) {
             abort(403);
         }
 
@@ -67,7 +80,7 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
-        if ($post->user_id !== auth()->user()->id) {
+        if (!Gate::allows('view', $post)) {
             abort(403);
         }
 
@@ -79,7 +92,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
+        if (!Gate::allows('update', $post)) {
             abort(403);
         }
 
@@ -91,7 +104,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
+        if (!Gate::allows('update', $post)) {
             abort(403);
         }
 
@@ -121,7 +134,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if ($post->user_id !== auth()->user()->id) {
+        if (!Gate::allows('delete', $post)) {
             abort(403);
         }
 

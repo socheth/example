@@ -11,7 +11,8 @@
                 @foreach ($jobs as $job)
                     <li><a class="hover:underline"
                             href="{{ route('jobs.slug', ['slug' => $job->slug, 'id' => $job]) }}">{{ $job->title }}
-                            <span class="text-sm text-red-600">({{ Number::currency($job->salary) }})</span>
+                            <span
+                                class="text-sm text-red-600">({{ is_numeric($job->salary) ? Number::currency($job->salary) : $job->salary }})</span>
                         </a>
                     </li>
                 @endforeach

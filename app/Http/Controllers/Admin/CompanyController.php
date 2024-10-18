@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Company;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 
@@ -39,6 +40,7 @@ class CompanyController extends Controller
         }
 
         $request['slug'] = Str::slug(request('name'));
+
         auth()->user()->companies()->create($request);
 
         session()->flash('message', 'Your company has been created!');
@@ -51,7 +53,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        if ($company->user_id !== auth()->user()->id) {
+        if (!Gate::allows('update-company', $company)) {
             abort(403);
         }
 
@@ -63,7 +65,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        if ($company->user_id !== auth()->user()->id) {
+        if (!Gate::allows('update-company', $company)) {
             abort(403);
         }
 
@@ -75,7 +77,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        if ($company->user_id !== auth()->user()->id) {
+        if (!Gate::allows('update-company', $company)) {
             abort(403);
         }
 
@@ -99,7 +101,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if ($company->user_id !== auth()->user()->id) {
+        if (!Gate::allows('delete-company', $company)) {
             abort(403);
         }
 

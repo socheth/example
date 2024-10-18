@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -36,6 +37,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::resource('jobs', JobController::class);
     Route::resource('companies', CompanyController::class);
+    Route::resource('users', UserController::class)->middleware('can:view-users');
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');

@@ -20,8 +20,8 @@
                 <x-input-error class="mt-2" :messages="$errors->get('title')" />
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4 md:flex md:justify-between">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="title" :value="__('Experience')" class="required" />
                     <x-text-input name="experience" id="experience" placeholder="1 year" :value="old('experience')" />
                     <x-input-error class="mt-2" :messages="$errors->get('experience')" />
@@ -33,8 +33,8 @@
                 </div>
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4 md:flex md:justify-between">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="type" :value="__('Type')" class="required" />
                     <x-admin.form.select name="type" id="type">
                         <option value="">Choose type</option>
@@ -57,8 +57,8 @@
                 </div>
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4 md:flex md:justify-between">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="category" :value="__('Status')" class="required" />
                     <x-admin.form.select name="status" id="status">
                         <option value="">Choose status</option>
@@ -79,8 +79,8 @@
                 </div>
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4 md:flex md:justify-between">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="location" :value="__('Location')" class="required" />
                     <x-text-input name="location" id="location" placeholder="Remote" :value="old('location')" />
                     <x-input-error class="mt-2" :messages="$errors->get('location')" />

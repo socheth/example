@@ -11,7 +11,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="items-center hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -24,15 +24,45 @@
                     <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
                         {{ __('Companies') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.jobs.create')" :active="request()->routeIs('admin.jobs.create')">
-                        {{ __('Create Job') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.posts.create')" :active="request()->routeIs('admin.posts.create')">
-                        {{ __('Create Post') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.companies.create')" :active="request()->routeIs('admin.companies.create')">
-                        {{ __('Create Company') }}
-                    </x-nav-link>
+                    @can('view-users')
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endcan
+
+                    <x-dropdown align="left" width="48">
+                        <x-slot name="trigger">
+                            <button
+                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                                <div>{{ __('Create New') }}</div>
+
+                                <div class="ms-1">
+                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('admin.jobs.create')">
+                                {{ __('New Job ') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.posts.create')">
+                                {{ __('New Post') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.companies.create')">
+                                {{ __('New Company') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.users.create')">
+                                {{ __('New User') }}
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-dropdown>
+
                 </div>
             </div>
 
@@ -102,11 +132,17 @@
             <x-responsive-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
+                {{ __('Companies') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.jobs.create')" :active="request()->routeIs('admin.jobs.create')">
                 {{ __('Create Job') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.posts.create')" :active="request()->routeIs('admin.posts.create')">
                 {{ __('Create Post') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.companies.create')" :active="request()->routeIs('admin.companies.create')">
+                {{ __('Create Company') }}
             </x-responsive-nav-link>
         </div>
 

@@ -10,6 +10,7 @@ class Job extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $fillable = [
         "user_id",
         "company_id",

@@ -4,9 +4,11 @@ namespace App\Http\Requests\Auth;
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
@@ -43,10 +45,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $username = $this->string('username');
-        $user = User::where('email', $username)
-            ->orWhere('name', $username)
-            ->orWhere('phone', $username)
+        $user = User::where(function (Builder $query) {
+            $username = mb_strtolower($this->string('username'));
+            $query->where('email', $username)
+                ->orWhere('phone', $username)
+                ->orWhere(DB::raw('LOWER(name)'), $username);
+        })
+            ->where('deleted_at', null)
+            ->where('is_active', true)
             ->first();
 
         if (!$user || !Hash::check($this->string('password'), $user->password)) {

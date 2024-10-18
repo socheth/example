@@ -21,8 +21,8 @@
                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4  md:justify-between md:flex">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="email" :value="__('Email')" class="required" />
                     <x-text-input id="email" name="email" type="email" class="block w-full" :value="old('email')"
                         autofocus autocomplete="off" />
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div class="flex justify-between w-full gap-4">
-                <div class="flex flex-col w-full field-group md:w-1/2">
+            <div class="w-full gap-4  md:flex md:justify-between">
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="website" :value="__('Website')" class="required" />
                     <x-text-input id="website" name="website" type="url" class="block w-full" :value="old('website')"
                         autofocus autocomplete="off" />

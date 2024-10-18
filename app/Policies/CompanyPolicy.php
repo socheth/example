@@ -4,9 +4,18 @@ namespace App\Policies;
 
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class CompanyPolicy
 {
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        return null;
+    }
     /**
      * Determine whether the user can view any models.
      */
@@ -18,9 +27,9 @@ class CompanyPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Company $company): bool
+    public function view(?User $user, Company $company): bool
     {
-        return $user->id === $company->user_id;
+        return $user?->id === $company->user_id;
     }
 
     /**
@@ -34,9 +43,10 @@ class CompanyPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Company $company): bool
+    public function update(User $user, Company $company): Response
     {
-        return $user->isUser();
+        return $user->id === $company->user_id ? Response::allow()
+            : Response::deny('You do not own this company.');
     }
 
     /**
