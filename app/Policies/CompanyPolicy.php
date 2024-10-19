@@ -21,7 +21,7 @@ class CompanyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isValid();
     }
 
     /**
@@ -37,7 +37,7 @@ class CompanyPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isUser();
+        return $user->isValid();
     }
 
     /**

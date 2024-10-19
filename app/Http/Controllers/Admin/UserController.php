@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -38,7 +39,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('admin.users.show', ['user' => $user]);
     }
 
     /**
@@ -46,7 +47,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', ['user' => $user]);
     }
 
     /**
@@ -62,6 +63,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if ($user->id === auth()->user()->id) {
+            abort(401);
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users.index');
     }
 }

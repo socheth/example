@@ -90,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->role === "editor";
     }
 
-    public function isActive(): bool
+    public function isValid(): bool
     {
         return $this->is_active === true && $this->deleted_at === null;
     }

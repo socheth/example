@@ -60,6 +60,12 @@
                             <x-dropdown-link :href="route('admin.users.create')">
                                 {{ __('New User') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.users.create')">
+                                {{ __('New Role') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.users.create')">
+                                {{ __('New Permission') }}
+                            </x-dropdown-link>
                         </x-slot>
                     </x-dropdown>
 

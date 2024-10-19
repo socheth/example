@@ -70,7 +70,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         if (!Gate::allows('view', $post)) {
-            abort(403);
+            abort(401);
         }
 
         return view('admin.posts.show', ['post' => $post]);
@@ -81,7 +81,7 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->firstOrFail();
 
         if (!Gate::allows('view', $post)) {
-            abort(403);
+            abort(401);
         }
 
         return view('admin.posts.show', ['post' => $post]);
@@ -93,7 +93,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (!Gate::allows('update', $post)) {
-            abort(403);
+            abort(401);
         }
 
         return view('admin.posts.edit', ['post' => $post]);
@@ -105,7 +105,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         if (!Gate::allows('update', $post)) {
-            abort(403);
+            abort(401);
         }
 
         $request = request()->validate([
@@ -135,7 +135,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (!Gate::allows('delete', $post)) {
-            abort(403);
+            abort(401);
         }
 
         $post->delete();

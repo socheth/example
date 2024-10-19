@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <x-slot name="headerTitle">500</x-slot>
+    <x-slot name="headerTitle">500 - Server Error</x-slot>
     <div class="max-w-[50rem] flex flex-col mx-auto size-full">
 
         <!-- ========== MAIN CONTENT ========== -->

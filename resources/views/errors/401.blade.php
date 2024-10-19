@@ -1,13 +1,13 @@
 <x-guest-layout>
-    <x-slot name="headerTitle">403 - Forbidden</x-slot>
+    <x-slot name="headerTitle">401 - Unauthorized</x-slot>
     <div class="max-w-[50rem] flex flex-col mx-auto size-full">
 
         <!-- ========== MAIN CONTENT ========== -->
         <main id="content">
             <div class="px-4 py-10 text-center sm:px-6 lg:px-8">
-                <h1 class="block font-bold text-gray-800 text-7xl sm:text-9xl dark:text-white">403</h1>
+                <h1 class="block font-bold text-gray-800 text-7xl sm:text-9xl dark:text-white">401</h1>
                 <p class="mt-3 text-gray-600 dark:text-neutral-400">Oops, something went wrong.</p>
-                <p class="text-gray-600 dark:text-neutral-400">Sorry, forbidden.</p>
+                <p class="text-gray-600 dark:text-neutral-400">Sorry, Unauthorized.</p>
                 <div class="flex flex-col items-center justify-center gap-2 mt-5 sm:flex-row sm:gap-3">
                     <a class="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg sm:w-auto gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                         href="{{ route('home') }}">

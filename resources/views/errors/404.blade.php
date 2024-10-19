@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <x-slot name="headerTitle">404</x-slot>
+    <x-slot name="headerTitle">404 - Page Not Found</x-slot>
     <div class="max-w-[50rem] flex flex-col mx-auto size-full">
 
         <!-- ========== MAIN CONTENT ========== -->
