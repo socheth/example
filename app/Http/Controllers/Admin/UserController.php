@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -13,6 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-users', User::class);
+
         return view('admin.users.index', [
             'users' => User::query()->latest('id')->paginate(10),
         ]);
@@ -23,6 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-users', User::class);
+
         return view('admin.users.create');
     }
 
@@ -31,7 +38,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Gate::authorize('create-users', User::class);
+
+        $request = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'slug' => Str::slug($request['name']),
+        ]);
+
+        return back()->with('status', 'user-created');
     }
 
     /**

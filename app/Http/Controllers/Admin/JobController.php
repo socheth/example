@@ -6,6 +6,7 @@ use App\Models\Job;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class JobController extends Controller
 {
@@ -15,6 +16,8 @@ class JobController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Job::class);
+
         return view('admin.jobs.index', ['jobs' => auth()->user()->jobs()->latest('id')->paginate(10)]);
     }
 
@@ -23,6 +26,8 @@ class JobController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Job::class);
+
         return view('admin.jobs.create', ['companies' => auth()->user()->companies()->latest()->get()]);
     }
 
@@ -31,6 +36,8 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Job::class);
+
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'company' => 'required|exists:companies,id',
@@ -64,9 +71,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        if ($job->user()->isNot(auth()->user())) {
-            abort(403);
-        }
+        Gate::authorize('view', $job);
 
         return view('admin.jobs.show', ['job' => $job]);
     }
@@ -76,9 +81,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        if ($job->user_id !== auth()->user()->id) {
-            abort(403);
-        }
+        Gate::authorize('update', $job);
 
         return view('admin.jobs.edit', ['job' => $job, 'companies' => auth()->user()->companies()->latest()->get()]);
     }
@@ -88,9 +91,7 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        if ($job->user_id !== auth()->user()->id) {
-            abort(403);
-        }
+        Gate::authorize('update', $job);
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -125,9 +126,7 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
-        if ($job->user_id !== auth()->user()->id) {
-            abort(403);
-        }
+        Gate::authorize('delete', $job);
 
         $job->delete();
 

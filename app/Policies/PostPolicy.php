@@ -4,12 +4,12 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+
 
 class PostPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view all posts.
      */
     public function viewAny(User $user): bool
     {
@@ -17,11 +17,11 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the post.
      */
     public function view(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $post->user_id;
     }
 
     /**
@@ -37,7 +37,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $post->user_id;
     }
 
     /**
@@ -45,7 +45,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $post->user_id;
     }
 
     /**
@@ -53,7 +53,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $post->user_id;
     }
 
     /**
@@ -61,6 +61,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $post->user_id;
     }
 }

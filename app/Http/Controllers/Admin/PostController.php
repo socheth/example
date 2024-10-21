@@ -27,9 +27,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        if (!Gate::allows('create', Post::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Post::class);
+        // if (!Gate::allows('create', Post::class)) {
+        //     abort(403);
+        // }
 
         return view('admin.posts.create');
     }
@@ -92,9 +93,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        if (!Gate::allows('update', $post)) {
-            abort(401);
-        }
+        Gate::authorize('update', $post);
+        // if (!Gate::allows('update', $post)) {
+        //     abort(401);
+        // }
 
         return view('admin.posts.edit', ['post' => $post]);
     }

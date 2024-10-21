@@ -37,7 +37,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
 
     Route::resource('jobs', JobController::class);
     Route::resource('companies', CompanyController::class);
-    Route::resource('users', UserController::class)->middleware('can:view-users');
+    Route::resource('users', UserController::class);
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');

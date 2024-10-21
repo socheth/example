@@ -1,7 +1,9 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\Role;
 use App\Models\User;
+use App\Enums\RoleName;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
@@ -9,7 +11,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
+        User::create([
             'name' => 'Admin',
             'slug' => 'admin',
             'email' => 'admin@example.com',
@@ -23,7 +25,7 @@ class UserSeeder extends Seeder
             'role' => 'admin',
             'is_active' => true,
             'remember_token' => Str::random(10),
-        ]);
+        ])->roles()->sync(Role::where('name', RoleName::ADMIN->value)->first());
 
         User::factory(10)->create();
     }
