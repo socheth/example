@@ -38,13 +38,25 @@ class AuthServiceProvider extends ServiceProvider
         Gate::policy(Job::class, JobPolicy::class);
 
         Gate::define('create-users', function (User $user) {
-            return $user->isAdmin()
+            return $user->isAdmin() || $user->isSuperAdmin()
+                ? Response::allow()
+                : Response::deny('You must be an administrator.');
+        });
+
+        Gate::define('edit-users', function (User $user) {
+            return $user->isAdmin() || $user->isSuperAdmin()
+                ? Response::allow()
+                : Response::deny('You must be an administrator.');
+        });
+
+        Gate::define('delete-users', function (User $user) {
+            return $user->isAdmin() || $user->isSuperAdmin()
                 ? Response::allow()
                 : Response::deny('You must be an administrator.');
         });
 
         Gate::define('view-users', function (User $user) {
-            return $user->isAdmin()
+            return $user->isAdmin() || $user->isSuperAdmin()
                 ? Response::allow()
                 : Response::deny('You must be an administrator.');
         });

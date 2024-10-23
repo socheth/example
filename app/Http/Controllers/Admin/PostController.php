@@ -15,9 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        if (!Gate::allows('viewAny', Post::class)) {
-            abort(403);
-        }
+        Gate::authorize('viewAny', Post::class);
 
         return view('admin.posts.index', ['posts' => auth()->user()->posts()->latest('id')->simplePaginate(10)]);
     }
@@ -28,9 +26,6 @@ class PostController extends Controller
     public function create()
     {
         Gate::authorize('create', Post::class);
-        // if (!Gate::allows('create', Post::class)) {
-        //     abort(403);
-        // }
 
         return view('admin.posts.create');
     }
@@ -40,9 +35,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->user()->cannot('create', Post::class)) {
-            abort(403);
-        }
+        Gate::authorize('create', Post::class);
 
         $request = request()->validate([
             'title' => ['required', 'max:255'],
@@ -70,15 +63,15 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if (!Gate::allows('view', $post)) {
-            abort(401);
-        }
+        Gate::authorize('view', $post);
 
         return view('admin.posts.show', ['post' => $post]);
     }
 
     public function showBySlug(string $slug)
     {
+        Gate::authorize('view', Post::class);
+
         $post = Post::where('slug', $slug)->firstOrFail();
 
         if (!Gate::allows('view', $post)) {
@@ -94,9 +87,6 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('update', $post);
-        // if (!Gate::allows('update', $post)) {
-        //     abort(401);
-        // }
 
         return view('admin.posts.edit', ['post' => $post]);
     }
@@ -106,9 +96,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        if (!Gate::allows('update', $post)) {
-            abort(401);
-        }
+        Gate::authorize('update', $post);
 
         $request = request()->validate([
             'title' => ['required', 'max:255'],
@@ -136,9 +124,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (!Gate::allows('delete', $post)) {
-            abort(401);
-        }
+        Gate::authorize('delete', $post);
 
         $post->delete();
 

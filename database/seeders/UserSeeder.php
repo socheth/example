@@ -22,10 +22,10 @@ class UserSeeder extends Seeder
             'gender' => 'male',
             'photo' => 'https://avatar.iran.liara.run/username?username=Me',
             'password' => bcrypt('password'),
-            'role' => 'admin',
+            'is_admin' => true,
             'is_active' => true,
             'remember_token' => Str::random(10),
-        ])->roles()->sync(Role::where('name', RoleName::ADMIN->value)->first());
+        ])->roles()->sync(Role::where('name', RoleName::SUPER_ADMIN->value)->first());
 
         User::factory(10)->create();
     }

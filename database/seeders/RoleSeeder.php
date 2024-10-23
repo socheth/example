@@ -16,6 +16,10 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         $this->createAdminRole();
+        Role::create(['name' => RoleName::ADMIN->value]);
+        Role::create(['name' => RoleName::MANAGER->value]);
+        Role::create(['name' => RoleName::AUTHOR->value]);
+        Role::create(['name' => RoleName::USER->value]);
     }
     protected function createRole(RoleName $role, Collection $permissions): void
     {
@@ -27,9 +31,11 @@ class RoleSeeder extends Seeder
     {
         $permissions = Permission::query()
             ->where('name', 'like', 'user.%')
-            ->orWhere('name', 'like', 'restaurant.%')
+            ->orWhere('name', 'like', 'company.%')
+            ->orWhere('name', 'like', 'post.%')
+            ->orWhere('name', 'like', 'job.%')
             ->pluck('id');
 
-        $this->createRole(RoleName::ADMIN, $permissions);
+        $this->createRole(RoleName::SUPER_ADMIN, $permissions);
     }
 }

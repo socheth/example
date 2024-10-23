@@ -15,14 +15,26 @@
 
         <x-admin.form.card>
 
-            <div class="flex flex-col w-full field-group">
-                <x-input-label for="name" :value="__('Name')" class="required" />
-                <x-text-input id="name" name="name" type="text" class="block w-full" :value="$company->name"
-                    autofocus autocomplete="off" />
-                <x-input-error class="mt-2" :messages="$errors->get('name')" />
+
+            <div class="w-full gap-4 md:flex md:justify-between">
+
+                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
+                    <x-input-label for="name" :value="__('Company Name')" class="required" />
+                    <x-text-input id="name" name="name" type="text" class="block w-full" :value="$company->name"
+                        autofocus autocomplete="off" />
+                    <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                </div>
+
+                <div class="flex flex-col w-full field-group md:w-1/2">
+                    <x-input-label for="website" :value="__('Website')" class="required" />
+                    <x-text-input id="website" name="website" type="url" class="block w-full" :value="$company->website"
+                        autofocus autocomplete="off" />
+                    <x-input-error class="mt-2" :messages="$errors->get('website')" />
+                </div>
+
             </div>
 
-            <div class="w-full gap-4  md:flex md:justify-between">
+            <div class="w-full gap-4 md:flex md:justify-between">
                 <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
                     <x-input-label for="email" :value="__('Email')" class="required" />
                     <x-text-input id="email" name="email" type="email" class="block w-full" :value="$company->email"
@@ -37,19 +49,11 @@
                 </div>
             </div>
 
-            <div class="w-full gap-4  md:flex md:justify-between">
-                <div class="flex flex-col w-full mb-4 field-group md:w-1/2 md:mb-0">
-                    <x-input-label for="website" :value="__('Website')" class="required" />
-                    <x-text-input id="website" name="website" type="url" class="block w-full" :value="$company->website"
-                        autofocus autocomplete="off" />
-                    <x-input-error class="mt-2" :messages="$errors->get('website')" />
-                </div>
-                <div class="flex flex-col w-full field-group md:w-1/2">
-                    <x-input-label for="address" :value="__('Address')" class="required" />
-                    <x-text-input id="address" name="address" type="text" class="block w-full" :value="$company->address"
-                        autofocus autocomplete="off" />
-                    <x-input-error class="mt-2" :messages="$errors->get('address')" />
-                </div>
+            <div class="flex flex-col w-full field-group">
+                <x-input-label for="address" :value="__('Address')" class="required" />
+                <x-text-input id="address" name="address" type="text" class="block w-full" :value="$company->address"
+                    autofocus autocomplete="off" />
+                <x-input-error class="mt-2" :messages="$errors->get('address')" />
             </div>
 
             <div class="flex justify-between w-full gap-4">

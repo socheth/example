@@ -16,6 +16,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        Gate::authorize('viewAny', Company::class);
+
         return view('admin.companies.index', ['companies' => auth()->user()->companies()->latest('id')->paginate(10)]);
     }
 
@@ -24,6 +26,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Company::class);
+
         return view('admin.companies.create');
     }
 
@@ -32,6 +36,8 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
+        Gate::authorize('create', Company::class);
+
         $request = $request->all();
 
         if (isset($request['logo'])) {
@@ -53,9 +59,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        if (!Gate::allows('update-company', $company)) {
-            abort(403);
-        }
+        Gate::authorize('view', Company::class);
 
         return view('admin.companies.show', ['company' => $company]);
     }
@@ -65,9 +69,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        if (!Gate::allows('update-company', $company)) {
-            abort(403);
-        }
+        Gate::authorize('update', $company);
 
         return view('admin.companies.edit', ['company' => $company]);
     }
@@ -77,9 +79,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        if (!Gate::allows('update-company', $company)) {
-            abort(403);
-        }
+        Gate::authorize('update', $company);
 
         $request = $request->all();
         $request['slug'] = Str::slug(request('name'));
@@ -101,9 +101,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        if (!Gate::allows('delete-company', $company)) {
-            abort(403);
-        }
+        Gate::authorize('delete', $company);
 
         $company->delete();
 

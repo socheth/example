@@ -61,9 +61,9 @@
         </div>
     </form>
 
-    @pushOnce('scripts')
+    @push('scripts')
         <script>
             document.getElementById('category').value = '{{ old('category') }}';
         </script>
-    @endpushOnce
+    @endpush
 </x-app-layout>

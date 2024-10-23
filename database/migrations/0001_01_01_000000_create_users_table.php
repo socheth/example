@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('phone')->unique()->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('password');
-            $table->string('role')->default('user')->comment('super_admin > admin > manager > author > user');
+            $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(true);
             $table->string('photo', 2048)->default('https://avatar.iran.liara.run/username?username=Me');
             $table->rememberToken();

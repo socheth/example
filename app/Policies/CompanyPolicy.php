@@ -8,14 +8,7 @@ use Illuminate\Auth\Access\Response;
 
 class CompanyPolicy
 {
-    public function before(User $user, string $ability): bool|null
-    {
-        if ($user->isAdmin()) {
-            return true;
-        }
 
-        return null;
-    }
     /**
      * Determine whether the user can view any models.
      */
@@ -27,9 +20,9 @@ class CompanyPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(?User $user, Company $company): bool
+    public function view(User $user, Company $company): bool
     {
-        return $user?->id === $company->user_id;
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $company->user_id;
     }
 
     /**

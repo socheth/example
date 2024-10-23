@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         "phone",
         "email",
         "password",
-        "role",
+        "is_admin",
         "is_active",
         "photo",
         "address",
@@ -84,36 +84,30 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->roles()->where('name', $role->value)->exists();
     }
-    /*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * Check if the user is a super admin.
-     *
-     * @return bool
-     */
-    /******  642a6c9a-f8f9-417a-8617-10117890df7a  *******/
+
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'super_admin' && $this->isValid();
+        return $this->hasRole(RoleName::SUPER_ADMIN) && $this->isValid();
     }
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin' && $this->isValid();
+        return $this->hasRole(RoleName::ADMIN) && $this->isValid();
     }
 
     public function isUser(): bool
     {
-        return $this->role === 'user' && $this->isValid();
+        return $this->hasRole(RoleName::USER) && $this->isValid();
     }
 
     public function isManager(): bool
     {
-        return $this->role === 'manager' && $this->isValid();
+        return $this->hasRole(RoleName::MANAGER) && $this->isValid();
     }
 
     public function isAuthor(): bool
     {
-        return $this->role === 'author' && $this->isValid();
+        return $this->hasRole(RoleName::AUTHOR) && $this->isValid();
     }
 
     public function isValid(): bool
@@ -123,14 +117,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function permissions(): array
     {
-        return $this->roles()->with('permissions')->get()
-            ->map(function ($role) {
-                return $role->permissions->pluck('name');
-            })->flatten()->values()->unique()->toArray();
+        // return $this->roles()->with('permissions')->get()
+        //     ->map(function ($role) {
+        //         return $role->permissions->pluck('name');
+        //     })->flatten()->values()->unique()->toArray();
+
+        return $this->roles()->pluck('permissions')->flatten()->pluck('name')->unique()->toArray();
     }
 
     public function hasPermission(string $permission): bool
     {
         return in_array($permission, $this->permissions(), true);
     }
+
 }

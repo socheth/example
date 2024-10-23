@@ -33,7 +33,7 @@ class UserFactory extends Factory
             'phone' => fake()->e164PhoneNumber(),
             'email_verified_at' => now(),
             'phone_verified_at' => now(),
-            'role' => 'user',
+            'is_admin' => false,
             'is_active' => true,
             'photo' => fake()->imageUrl(200, 200),
             'password' => static::$password ??= Hash::make('password'),
