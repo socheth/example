@@ -21,7 +21,7 @@ class JobPolicy
      */
     public function view(User $user, Job $job): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperAdmin() || $user->id === $job->user_id;
     }
 
     /**

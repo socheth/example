@@ -59,7 +59,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        Gate::authorize('view', Company::class);
+        Gate::authorize('view', $company);
 
         return view('admin.companies.show', ['company' => $company]);
     }

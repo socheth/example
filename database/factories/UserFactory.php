@@ -36,7 +36,7 @@ class UserFactory extends Factory
             'is_admin' => false,
             'is_active' => true,
             'photo' => fake()->imageUrl(200, 200),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }

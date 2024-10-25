@@ -26,8 +26,16 @@
                                     <span
                                         class="text-sm text-red-600">({{ is_numeric($job->salary) ? Number::currency($job->salary) : $job->salary }})</span>
                                 </a>
-                                <x-admin.button-link
-                                    href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit</x-admin.button-link>
+                                <div class="flex justify-end ms-auto">
+                                    <x-admin.button-link
+                                        href="{{ route('admin.jobs.edit', ['job' => $job]) }}">Edit</x-admin.button-link>
+                                    <form onsubmit="return confirm('Are you sure?')" method="POST"
+                                        action="{{ route('admin.jobs.destroy', ['job' => $job]) }}">
+                                        <x-danger-button>Trash</x-danger-button>
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
                             </li>
                         @endforeach
                     </ul>

@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="headerTitle">
-        {{ __('All Users') }}
+        {{ __('All Roles') }}
     </x-slot>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            {{ __('All Users') }}
+            {{ __('All Roles') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -19,16 +19,16 @@
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <ul class="leading-8 list-disc list-inside dark:text-white">
-                        @foreach ($users as $user)
+                        @foreach ($roles as $role)
                             <li class="flex items-center justify-between mb-2">
                                 <a class="text-blue-400 hover:underline"
-                                    href="{{ route('admin.users.show', ['user' => $user]) }}">{{ $user->name }}
+                                    href="{{ route('admin.roles.show', ['role' => $role]) }}">{{ $role->name }}
                                 </a>
                                 <div class="flex justify-end ms-auto">
                                     <x-admin.button-link
-                                        href="{{ route('admin.users.edit', ['user' => $user]) }}">Edit</x-admin.button-link>
+                                        href="{{ route('admin.roles.edit', ['role' => $role]) }}">Edit</x-admin.button-link>
                                     <form onsubmit="return confirm('Are you sure?')" method="POST"
-                                        action="{{ route('admin.users.destroy', ['user' => $user]) }}">
+                                        action="{{ route('admin.roles.destroy', ['role' => $role]) }}">
                                         <x-danger-button>Trash</x-danger-button>
                                         @csrf
                                         @method('DELETE')
@@ -38,7 +38,7 @@
                         @endforeach
                     </ul>
 
-                    {{ $users->links() }}
+                    {{ $roles->links() }}
 
                 </div>
             </div>

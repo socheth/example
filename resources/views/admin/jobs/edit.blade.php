@@ -134,7 +134,7 @@
 
         <div class="sticky bottom-0 flex justify-center w-full pt-4 pb-5">
             <x-admin.button-link href="{{ route('admin.jobs.index') }}">Cancel</x-admin.button-link>
-            <x-primary-button>{{ __('Update') }}</x-primary-button>
+            <x-primary-button>{{ __('Save') }}</x-primary-button>
         </div>
 
     </form>

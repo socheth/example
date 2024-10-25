@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
+    protected $fillable = [
+        'name',
+        'level',
+    ];
+
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class);

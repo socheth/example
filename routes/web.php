@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\Permission;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\PermissionController;
 
 Route::get('/', function () {
     return view('home');
@@ -38,6 +41,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('jobs', JobController::class);
     Route::resource('companies', CompanyController::class);
     Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class)->middleware('is_super_admin');
+    Route::resource('permissions', PermissionController::class)->middleware('is_super_admin');
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');

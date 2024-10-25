@@ -24,8 +24,16 @@
                                 <a class="text-blue-400 hover:underline"
                                     href="{{ route('admin.posts.show', ['post' => $post]) }}">{{ $post->title }}
                                 </a>
-                                <x-admin.button-link
-                                    href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-admin.button-link>
+                                <div class="flex justify-end ms-auto">
+                                    <x-admin.button-link
+                                        href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</x-admin.button-link>
+                                    <form onsubmit="return confirm('Are you sure?')" method="POST"
+                                        action="{{ route('admin.posts.destroy', ['post' => $post]) }}">
+                                        <x-danger-button>Trash</x-danger-button>
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
                             </li>
                         @endforeach
                     </ul>

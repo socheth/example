@@ -74,6 +74,8 @@ class UserController extends Controller
             'user_id' => $user_id,
         ]);
 
+        DB::statement("INSERT INTO permission_user (SELECT permission_id, $user_id FROM permission_role WHERE role_id = $request[role])");
+
         return back()->with('status', 'user-created');
     }
 
@@ -82,7 +84,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        Gate::authorize('view-users', User::class);
+        Gate::authorize('view-users', $user);
 
         return view('admin.users.show', ['user' => $user]);
     }
@@ -92,7 +94,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        Gate::authorize('edit-users', User::class);
+        Gate::authorize('edit-users', $user);
 
         return view('admin.users.edit', ['user' => $user]);
     }
@@ -102,7 +104,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        Gate::authorize('edit-users', User::class);
+        Gate::authorize('edit-users', $user);
 
         $request = request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -130,8 +132,9 @@ class UserController extends Controller
 
         $user->update($request);
 
-        DB::table('role_user')->where('user_id', $user->id)->update([
-            'role_id' => $request['role']
+        DB::table('role_user')->where('user_id', $user->id)->updateOrInsert([
+            'role_id' => $request['role'],
+            'user_id' => $user->id,
         ]);
 
         return back()->with('status', 'user-updated');
@@ -142,7 +145,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        Gate::authorize('delete-users', User::class);
+        Gate::authorize('delete-users', $user);
 
         $user->delete();
 

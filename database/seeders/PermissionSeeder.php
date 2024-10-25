@@ -36,5 +36,6 @@ class PermissionSeeder extends Seeder
             })->each(function ($permission) {
                 Permission::create(['name' => $permission]);
             });
+
     }
 }

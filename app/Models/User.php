@@ -80,9 +80,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Company::class);
     }
 
-    public function hasRole(RoleName $role)
+    public function hasRole(RoleName $role): bool
     {
         return $this->roles()->where('name', $role->value)->exists();
+    }
+
+    public function role()
+    {
+        return $this->roles()->first()->name;
+    }
+
+    public function level()
+    {
+        return $this->roles()->first()->level;
     }
 
     public function isSuperAdmin(): bool
@@ -117,12 +127,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function permissions(): array
     {
-        // return $this->roles()->with('permissions')->get()
-        //     ->map(function ($role) {
-        //         return $role->permissions->pluck('name');
-        //     })->flatten()->values()->unique()->toArray();
-
-        return $this->roles()->pluck('permissions')->flatten()->pluck('name')->unique()->toArray();
+        return $this->roles()->with('permissions')->get()
+            ->map(function ($role) {
+                return $role->permissions->pluck('name');
+            })->flatten()->values()->unique()->toArray();
     }
 
     public function hasPermission(string $permission): bool
