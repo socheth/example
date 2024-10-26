@@ -33,7 +33,11 @@
             <x-input-label :value="__('Permissions')" class="required" />
 
             @foreach ($permissions as $permission)
-                <x-admin.form.checkbox name="permissions[]" :id="$permission->name" :value="$permission->id" :label="$permission->name" />
+                @php
+                    $checked = $role->permissions->pluck('id')->contains($permission->id);
+                @endphp
+                <x-admin.form.checkbox :checked="$checked" name="permissions[]" :id="$permission->name" :value="$permission->id"
+                    :label="$permission->description" />
             @endforeach
             <x-input-error class="mt-2" :messages="$errors->get('permissions')" />
 

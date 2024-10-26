@@ -28,6 +28,12 @@
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                             {{ __('Users') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')">
+                            {{ __('Permissions') }}
+                        </x-nav-link>
                     @endcan
 
                     <x-dropdown align="left" width="48">

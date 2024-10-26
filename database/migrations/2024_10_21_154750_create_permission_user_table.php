@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('permission_user', function (Blueprint $table) {
-            $table->foreignIdFor(Permission::class)->constrained();
-            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Permission::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
         });
     }
 

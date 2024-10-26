@@ -13,7 +13,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.permissions.index', ['permissions' => Permission::query()->latest('id')->paginate(10)]);
     }
 
     /**
@@ -21,7 +21,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.permissions.create');
     }
 
     /**
@@ -29,7 +29,16 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'level' => 'required',
+        ]);
+
+        Permission::create($request->all());
+
+        session()->flash('message', 'Your permission has been created!');
+
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -37,7 +46,7 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        //
+        return view('admin.permissions.show', ['permission' => $permission]);
     }
 
     /**
@@ -45,7 +54,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        //
+        return view('admin.permissions.edit', ['permission' => $permission]);
     }
 
     /**
@@ -53,7 +62,16 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'level' => 'required',
+        ]);
+
+        $permission->update($request->all());
+
+        session()->flash('message', 'Your permission has been updated!');
+
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -61,6 +79,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+
+        return redirect()->route('admin.permissions.index');
     }
 }

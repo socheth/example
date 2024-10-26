@@ -34,7 +34,10 @@ class PermissionSeeder extends Seeder
             ->map(function ($set) {
                 return implode('.', $set);
             })->each(function ($permission) {
-                Permission::create(['name' => $permission]);
+                $descriptions = explode('.', $permission);
+                $descriptions = array_reverse($descriptions);
+                $description = ucwords($descriptions[0] . ' ' . $descriptions[1]);
+                Permission::create(['name' => $permission, 'description' => $description]);
             });
 
     }
