@@ -4,12 +4,12 @@ namespace App\Models;
 
 use App\Enums\RoleName;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -55,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function roles(): BelongsToMany
+    public function roles()
     {
         return $this->belongsToMany(Role::class);
     }
@@ -125,17 +125,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->is_active === true && $this->deleted_at === null;
     }
 
-    public function permissions(): array
+    public function permissions()
     {
-        return $this->roles()->with('permissions')->get()
-            ->map(function ($role) {
-                return $role->permissions->pluck('name');
-            })->flatten()->values()->unique()->toArray();
+        return DB::select('SELECT permissions.* FROM permission_user
+        INNER JOIN permissions ON permission_user.permission_id = permissions.id
+        INNER JOIN users ON permission_user.user_id = users.id
+        WHERE users.id = ?', [$this->id]);
     }
 
     public function hasPermission(string $permission): bool
     {
-        return in_array($permission, $this->permissions(), true);
+        $permissions = array_column($this->permissions(), 'name');
+        return in_array($permission, $permissions, true);
     }
-
 }

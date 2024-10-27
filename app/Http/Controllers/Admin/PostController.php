@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Post::class);
+        Gate::authorize('post.viewAny', Post::class);
 
         return view('admin.posts.index', ['posts' => auth()->user()->posts()->latest('id')->simplePaginate(10)]);
     }
@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create', Post::class);
+        Gate::authorize('post.create', Post::class);
 
         return view('admin.posts.create');
     }
@@ -35,7 +35,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create', Post::class);
+        Gate::authorize('post.create', Post::class);
 
         $request = request()->validate([
             'title' => ['required', 'max:255'],
@@ -63,14 +63,14 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        Gate::authorize('view', $post);
+        Gate::authorize('post.view', $post);
 
         return view('admin.posts.show', ['post' => $post]);
     }
 
     public function showBySlug(string $slug)
     {
-        Gate::authorize('view', Post::class);
+        Gate::authorize('post.view', Post::class);
 
         $post = Post::where('slug', $slug)->firstOrFail();
 
@@ -86,7 +86,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        Gate::authorize('update', $post);
+        Gate::authorize('post.update', $post);
 
         return view('admin.posts.edit', ['post' => $post]);
     }
@@ -96,7 +96,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        Gate::authorize('update', $post);
+        Gate::authorize('post.update', $post);
 
         $request = request()->validate([
             'title' => ['required', 'max:255'],
@@ -124,7 +124,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Gate::authorize('delete', $post);
+        Gate::authorize('post.delete', $post);
 
         $post->delete();
 

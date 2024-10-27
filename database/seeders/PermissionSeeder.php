@@ -27,6 +27,10 @@ class PermissionSeeder extends Seeder
             'post',
             'job',
             'company',
+            'permission',
+            'role',
+            'product',
+            'order',
         ];
 
         collect($resources)

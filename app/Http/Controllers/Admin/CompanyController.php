@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Company::class);
+        Gate::authorize('company.viewAny', Company::class);
 
         return view('admin.companies.index', ['companies' => auth()->user()->companies()->latest('id')->paginate(10)]);
     }
@@ -26,7 +26,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create', Company::class);
+        Gate::authorize('company.create', Company::class);
 
         return view('admin.companies.create');
     }
@@ -36,7 +36,7 @@ class CompanyController extends Controller
      */
     public function store(StoreCompanyRequest $request)
     {
-        Gate::authorize('create', Company::class);
+        Gate::authorize('company.create', Company::class);
 
         $request = $request->all();
 
@@ -59,7 +59,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        Gate::authorize('view', $company);
+        Gate::authorize('company.view', $company);
 
         return view('admin.companies.show', ['company' => $company]);
     }
@@ -69,7 +69,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        Gate::authorize('update', $company);
+        Gate::authorize('company.update', $company);
 
         return view('admin.companies.edit', ['company' => $company]);
     }
@@ -79,7 +79,7 @@ class CompanyController extends Controller
      */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        Gate::authorize('update', $company);
+        Gate::authorize('company.update', $company);
 
         $request = $request->all();
         $request['slug'] = Str::slug(request('name'));
@@ -101,7 +101,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        Gate::authorize('delete', $company);
+        Gate::authorize('company.delete', $company);
 
         $company->delete();
 

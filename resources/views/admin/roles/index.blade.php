@@ -23,7 +23,7 @@
                             <li class="flex items-center justify-between mb-2">
                                 <a class="text-blue-400 hover:underline"
                                     href="{{ route('admin.roles.show', ['role' => $role]) }}">{{ $role->name }}
-                                    ({{ $role->level }})
+                                    [level: {{ $role->level }}]
                                 </a>
                                 <div class="flex justify-end ms-auto">
                                     <x-admin.button-link

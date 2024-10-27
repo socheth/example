@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        Gate::authorize('view-users', User::class);
+        Gate::authorize('user.viewAny', User::class);
 
         return view('admin.users.index', [
             'users' => User::query()->latest('id')->paginate(10),
@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create-users', User::class);
+        Gate::authorize('user.create', User::class);
 
         return view('admin.users.create');
     }
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-users', User::class);
+        Gate::authorize('user.create', User::class);
 
         $request = request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -84,7 +84,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        Gate::authorize('view-users', $user);
+        Gate::authorize('user.view', $user);
 
         return view('admin.users.show', ['user' => $user]);
     }
@@ -94,7 +94,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        Gate::authorize('edit-users', $user);
+        Gate::authorize('user.update', $user);
 
         return view('admin.users.edit', ['user' => $user]);
     }
@@ -104,7 +104,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        Gate::authorize('edit-users', $user);
+        Gate::authorize('user.update', $user);
 
         $request = request()->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -145,9 +145,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        Gate::authorize('delete-users', $user);
+        Gate::authorize('user.delete', $user);
 
         $user->delete();
+
+        session()->flash('message', 'Your user has been deleted!');
 
         return redirect()->route('admin.users.index');
     }

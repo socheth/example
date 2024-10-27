@@ -60,6 +60,7 @@ class RoleSeeder extends Seeder
         $permissions = Permission::query()
             ->where('name', 'not like', 'user.%')
             ->where('name', 'not like', 'job.%')
+            ->where('name', 'not like', 'company.%')
             ->pluck('id');
 
         $this->createRole(RoleName::AUTHOR, 50, $permissions);
@@ -68,10 +69,9 @@ class RoleSeeder extends Seeder
     protected function createUserRole(): void
     {
         $permissions = Permission::query()
-            ->where('name', 'not like', 'user.%')
-            ->where('name', 'not like', '%.restore')
-            ->where('name', 'not like', '%.delete')
-            ->where('name', 'not like', '%.forceDelete')
+            ->where('name', 'like', 'post.%')
+            ->orWhere('name', 'like', 'product.%')
+            ->orWhere('name', 'like', 'order.%')
             ->pluck('id');
 
         $this->createRole(RoleName::USER, 10, $permissions);

@@ -16,7 +16,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        Gate::authorize('viewAny', Job::class);
+        Gate::authorize('job.viewAny', Job::class);
 
         return view('admin.jobs.index', ['jobs' => auth()->user()->jobs()->latest('id')->paginate(10)]);
     }
@@ -26,7 +26,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create', Job::class);
+        Gate::authorize('job.create', Job::class);
 
         return view('admin.jobs.create', ['companies' => auth()->user()->companies()->latest()->get()]);
     }
@@ -36,7 +36,7 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create', Job::class);
+        Gate::authorize('job.create', Job::class);
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -71,7 +71,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        Gate::authorize('view', $job);
+        Gate::authorize('job.view', $job);
 
         return view('admin.jobs.show', ['job' => $job]);
     }
@@ -81,7 +81,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        Gate::authorize('update', $job);
+        Gate::authorize('job.update', $job);
 
         return view('admin.jobs.edit', ['job' => $job, 'companies' => auth()->user()->companies()->latest()->get()]);
     }
@@ -91,7 +91,7 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        Gate::authorize('update', $job);
+        Gate::authorize('job.update', $job);
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -126,7 +126,7 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
-        Gate::authorize('delete', $job);
+        Gate::authorize('job.delete', $job);
 
         $job->delete();
 

@@ -21,9 +21,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Gate::before(function (User $user) {
-            return $user->isSuperAdmin();
-        });
+        // Gate::before(function (User $user) {
+        //     return $user->isSuperAdmin();
+        // });
     }
 
     /**
@@ -35,33 +35,33 @@ class AuthServiceProvider extends ServiceProvider
     }
     protected function registerGates(): void
     {
-        Gate::policy(Company::class, CompanyPolicy::class);
-        Gate::policy(Post::class, PostPolicy::class);
-        Gate::policy(Job::class, JobPolicy::class);
+        // Gate::policy(Company::class, CompanyPolicy::class);
+        // Gate::policy(Post::class, PostPolicy::class);
+        // Gate::policy(Job::class, JobPolicy::class);
 
-        Gate::define('create-users', function (User $user) {
-            return $user->isAdmin() || $user->isSuperAdmin()
-                ? Response::allow()
-                : Response::deny('You must be an administrator.');
-        });
+        // Gate::define('create-users', function (User $user) {
+        //     return $user->isAdmin() || $user->isSuperAdmin()
+        //         ? Response::allow()
+        //         : Response::deny('You must be an administrator.');
+        // });
 
-        Gate::define('edit-users', function (User $user) {
-            return $user->isAdmin() || $user->isSuperAdmin()
-                ? Response::allow()
-                : Response::deny('You must be an administrator.');
-        });
+        // Gate::define('edit-users', function (User $user) {
+        //     return $user->isAdmin() || $user->isSuperAdmin()
+        //         ? Response::allow()
+        //         : Response::deny('You must be an administrator.');
+        // });
 
-        Gate::define('delete-users', function (User $user) {
-            return $user->isAdmin() || $user->isSuperAdmin()
-                ? Response::allow()
-                : Response::deny('You must be an administrator.');
-        });
+        // Gate::define('delete-users', function (User $user) {
+        //     return $user->isAdmin() || $user->isSuperAdmin()
+        //         ? Response::allow()
+        //         : Response::deny('You must be an administrator.');
+        // });
 
-        Gate::define('view-users', function (User $user) {
-            return $user->isAdmin() || $user->isSuperAdmin()
-                ? Response::allow()
-                : Response::deny('You must be an administrator.');
-        });
+        // Gate::define('view-users', function (User $user) {
+        //     return $user->isAdmin() || $user->isSuperAdmin()
+        //         ? Response::allow()
+        //         : Response::deny('You must be an administrator.');
+        // });
 
         try {
             foreach (Permission::pluck('name') as $permission) {

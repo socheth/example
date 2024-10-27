@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -14,6 +15,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('role.viewAny', Role::class);
+
         return view('admin.roles.index', ['roles' => Role::query()->latest('id')->paginate(10)]);
     }
 
@@ -22,6 +25,8 @@ class RoleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('role.create', Role::class);
+
         $permissions = Permission::all();
 
         return view('admin.roles.create', ['permissions' => $permissions]);
@@ -32,6 +37,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('role.create', Role::class);
+
         $request->validate([
             'name' => 'required',
             'level' => 'required',
@@ -52,6 +59,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        Gate::authorize('role.view', $role);
+
         $permissions = Permission::all();
 
         $role->load('permissions');
@@ -64,6 +73,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        Gate::authorize('role.update', $role);
+
         $permissions = Permission::all();
 
         $role->load('permissions');
@@ -76,6 +87,8 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        Gate::authorize('role.update', $role);
+
         $request->validate([
             'name' => 'required',
             'level' => 'required',
@@ -96,7 +109,11 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        Gate::authorize('role.delete', $role);
+
         $role->delete();
+
+        session()->flash('message', 'Your role has been deleted!');
 
         return redirect()->route('admin.roles.index');
     }

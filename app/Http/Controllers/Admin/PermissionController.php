@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends Controller
 {
@@ -13,6 +14,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        Gate::authorize('permission.viewAny', Permission::class);
+
         return view('admin.permissions.index', ['permissions' => Permission::query()->latest('id')->paginate(10)]);
     }
 
@@ -21,6 +24,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
+        Gate::authorize('permission.create', Permission::class);
+
         return view('admin.permissions.create');
     }
 
@@ -29,9 +34,11 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('permission.create', Permission::class);
+
         $request->validate([
             'name' => 'required',
-            'level' => 'required',
+            'description' => 'required',
         ]);
 
         Permission::create($request->all());
@@ -46,6 +53,8 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
+        Gate::authorize('permission.view', $permission);
+
         return view('admin.permissions.show', ['permission' => $permission]);
     }
 
@@ -54,6 +63,8 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
+        Gate::authorize('permission.update', $permission);
+
         return view('admin.permissions.edit', ['permission' => $permission]);
     }
 
@@ -62,9 +73,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
+        Gate::authorize('permission.update', $permission);
+
         $request->validate([
             'name' => 'required',
-            'level' => 'required',
+            'description' => 'required',
         ]);
 
         $permission->update($request->all());
@@ -79,7 +92,11 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
+        Gate::authorize('permission.delete', $permission);
+
         $permission->delete();
+
+        session()->flash('message', 'Your permission has been deleted!');
 
         return redirect()->route('admin.permissions.index');
     }

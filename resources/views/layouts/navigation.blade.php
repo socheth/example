@@ -15,16 +15,22 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.jobs.index')" :active="request()->routeIs('admin.jobs.index')">
-                        {{ __('Jobs') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
-                        {{ __('Posts') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
-                        {{ __('Companies') }}
-                    </x-nav-link>
-                    @can('view-users')
+                    @can('job.view')
+                        <x-nav-link :href="route('admin.jobs.index')" :active="request()->routeIs('admin.jobs.index')">
+                            {{ __('Jobs') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('post.view')
+                        <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
+                            {{ __('Posts') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('company.view')
+                        <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
+                            {{ __('Companies') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('user.view')
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                             {{ __('Users') }}
                         </x-nav-link>
@@ -54,24 +60,32 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('admin.jobs.create')">
-                                {{ __('New Job ') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('admin.posts.create')">
-                                {{ __('New Post') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('admin.companies.create')">
-                                {{ __('New Company') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('admin.users.create')">
-                                {{ __('New User') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('admin.roles.create')">
-                                {{ __('New Role') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('admin.permissions.create')">
-                                {{ __('New Permission') }}
-                            </x-dropdown-link>
+                            @can('job.create')
+                                <x-dropdown-link :href="route('admin.jobs.create')">
+                                    {{ __('New Job ') }}
+                                </x-dropdown-link>
+                            @endcan
+                            @can('post.create')
+                                <x-dropdown-link :href="route('admin.posts.create')">
+                                    {{ __('New Post') }}
+                                </x-dropdown-link>
+                            @endcan
+                            @can('company.create')
+                                <x-dropdown-link :href="route('admin.companies.create')">
+                                    {{ __('New Company') }}
+                                </x-dropdown-link>
+                            @endcan
+                            @can('user.create')
+                                <x-dropdown-link :href="route('admin.users.create')">
+                                    {{ __('New User') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('admin.roles.create')">
+                                    {{ __('New Role') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('admin.permissions.create')">
+                                    {{ __('New Permission') }}
+                                </x-dropdown-link>
+                            @endcan
                         </x-slot>
                     </x-dropdown>
 
@@ -85,7 +99,6 @@
                         <button
                             class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
                             <div>{{ Auth::user()->name }}</div>
-
                             <div class="ms-1">
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20">
@@ -105,7 +118,6 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -173,7 +185,6 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
                                         this.closest('form').submit();">

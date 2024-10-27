@@ -19,7 +19,7 @@
                     <p class="mb-4 text-gray-400">{{ $user->address }}</p>
 
                     @foreach ($user->permissions() as $permission)
-                        <p class="mb-4 text-gray-400">{{ $permission }}</p>
+                        <span class="inline-block mb-4 mr-4 text-gray-400">✅ {{ $permission->description }}</span>
                     @endforeach
 
                     <div class="flex mt-4">
