@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
-use App\Enums\RoleName;
+use App\Enums\Role as RoleEnum;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         $this->createUserRole();
     }
 
-    protected function createRole(RoleName $role, int $level, Collection $permissions): void
+    protected function createRole(RoleEnum $role, int $level, Collection $permissions): void
     {
         $newRole = Role::create(['name' => $role->value, 'level' => $level]);
         $newRole->permissions()->sync($permissions);
@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
     {
         $permissions = Permission::query()->pluck('id');
 
-        $this->createRole(RoleName::SUPER_ADMIN, 99, $permissions);
+        $this->createRole(RoleEnum::SUPER_ADMIN, 99, $permissions);
     }
 
     protected function createAdminRole(): void
@@ -42,7 +42,7 @@ class RoleSeeder extends Seeder
             ->where('name', 'not like', '%.forceDelete')
             ->pluck('id');
 
-        $this->createRole(RoleName::ADMIN, 80, $permissions);
+        $this->createRole(RoleEnum::ADMIN, 80, $permissions);
     }
 
     protected function createManagerRole(): void
@@ -52,7 +52,7 @@ class RoleSeeder extends Seeder
             ->where('name', 'not like', 'company.%')
             ->pluck('id');
 
-        $this->createRole(RoleName::MANAGER, 70, $permissions);
+        $this->createRole(RoleEnum::MANAGER, 70, $permissions);
     }
 
     protected function createAuthorRole(): void
@@ -63,7 +63,7 @@ class RoleSeeder extends Seeder
             ->where('name', 'not like', 'company.%')
             ->pluck('id');
 
-        $this->createRole(RoleName::AUTHOR, 50, $permissions);
+        $this->createRole(RoleEnum::AUTHOR, 50, $permissions);
     }
 
     protected function createUserRole(): void
@@ -74,6 +74,6 @@ class RoleSeeder extends Seeder
             ->orWhere('name', 'like', 'order.%')
             ->pluck('id');
 
-        $this->createRole(RoleName::USER, 10, $permissions);
+        $this->createRole(RoleEnum::USER, 10, $permissions);
     }
 }

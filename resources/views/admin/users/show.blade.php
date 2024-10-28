@@ -34,7 +34,7 @@
                             <x-danger-button>Trash</x-danger-button>
                         </form>
                     </div>
-                    <img class="block w-full max-w-lg mt-5" src="{{ $user->photo }}" alt="User Avatar">
+                    <img class="block w-32 max-w-lg mt-5" src="{{ $user->photo }}" alt="User Avatar">
 
                 </div>
 

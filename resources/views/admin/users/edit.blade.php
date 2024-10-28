@@ -6,6 +6,10 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Edit User') }}
         </h2>
+
+        <x-primary-button x-data=""
+            x-on:click.prevent="$dispatch('open-modal', 'user-permissions')">{{ __('Permissions') }}</x-primary-button>
+
     </x-slot>
 
     <form method="POST" enctype="multipart/form-data" class="w-full py-12 mx-auto lg:max-w-2xl"
@@ -101,7 +105,7 @@
                 <x-admin.form.input-file name="photo" id="photo" value="{{ old('photo') }}" />
                 <x-input-error class="mt-2" :messages="$errors->get('photo')" />
             </div>
-            <img src="{{ $user->photo }}" alt="photo" class="w-full">
+            <img src="{{ $user->photo }}" alt="photo" class="w-32">
 
         </x-admin.form.card>
 
@@ -110,6 +114,44 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
         </div>
     </form>
+
+
+    <x-modal name="user-permissions" :show="$errors->has('permissions') || session('status') === 'permissions-updated'" focusable>
+        <form method="post" action="{{ route('admin.permissions.assign', ['user' => $user]) }}" class="p-6">
+            @csrf
+            @method('PATCH')
+
+            @if (session('status') === 'permissions-updated')
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-green-600">
+                    {{ __('User permissions updated successfully.') }}</p>
+            @elseif (session('status') === 'permissions-failed')
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-red-600">
+                    {{ __('User permissions updated failed.') }}</p>
+            @endif
+            <x-input-label for="permissions" :value="$user->name . __('\'s Permissions')" class="my-4 required" />
+
+            <div class="h-[50vh] overflow-y-scroll p-2">
+                @php
+                    $user_permissions = array_column($user->permissions(), 'id');
+                @endphp
+                @foreach ($permissions as $permission)
+                    @php
+                        $checked = in_array($permission->id, $user_permissions, true);
+                    @endphp
+                    <div class="mb-4">
+                        <x-admin.form.checkbox :checked="$checked" name="permissions[]" :id="$permission->name"
+                            :value="$permission->id" :label="$permission->description" />
+                    </div>
+                @endforeach
+            </div>
+            <x-input-error class="mt-2" :messages="$errors->get('permissions')" />
+            <div class="flex justify-end mt-6">
+                <x-secondary-button x-on:click="$dispatch('close')">{{ __('Cancel') }}</x-secondary-button>
+                <x-primary-button class="ms-3">{{ __('Save') }}</x-primary-button>
+            </div>
+        </form>
+    </x-modal>
 
     @push('scripts')
         <script>

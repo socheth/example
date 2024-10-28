@@ -43,6 +43,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class)->middleware('is_super_admin');
     Route::resource('permissions', PermissionController::class)->middleware('is_super_admin');
+    Route::patch('/permissions/{user}/assign', [UserController::class, 'assignPermissions'])->name('permissions.assign')->middleware('is_super_admin');
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');

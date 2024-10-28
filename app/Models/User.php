@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\RoleName;
+use App\Enums\Role as RoleEnum;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
@@ -80,7 +80,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Company::class);
     }
 
-    public function hasRole(RoleName $role): bool
+    public function hasRole(RoleEnum $role): bool
     {
         return $this->roles()->where('name', $role->value)->exists();
     }
@@ -97,27 +97,27 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole(RoleName::SUPER_ADMIN) && $this->isValid();
+        return $this->hasRole(RoleEnum::SUPER_ADMIN) && $this->isValid();
     }
 
     public function isAdmin(): bool
     {
-        return $this->hasRole(RoleName::ADMIN) && $this->isValid();
+        return $this->hasRole(RoleEnum::ADMIN) && $this->isValid();
     }
 
     public function isUser(): bool
     {
-        return $this->hasRole(RoleName::USER) && $this->isValid();
+        return $this->hasRole(RoleEnum::USER) && $this->isValid();
     }
 
     public function isManager(): bool
     {
-        return $this->hasRole(RoleName::MANAGER) && $this->isValid();
+        return $this->hasRole(RoleEnum::MANAGER) && $this->isValid();
     }
 
     public function isAuthor(): bool
     {
-        return $this->hasRole(RoleName::AUTHOR) && $this->isValid();
+        return $this->hasRole(RoleEnum::AUTHOR) && $this->isValid();
     }
 
     public function isValid(): bool
@@ -136,6 +136,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasPermission(string $permission): bool
     {
         $permissions = array_column($this->permissions(), 'name');
+
         return in_array($permission, $permissions, true);
+    }
+
+    public function syncPermissions()
+    {
+        return $this->belongsToMany(Permission::class);
     }
 }

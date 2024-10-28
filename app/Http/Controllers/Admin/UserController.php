@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -79,6 +80,19 @@ class UserController extends Controller
         return back()->with('status', 'user-created');
     }
 
+    public function assignPermissions(Request $request, User $user)
+    {
+        Gate::authorize('user.update', $user);
+
+        $request->validate([
+            'permissions' => 'required|array',
+        ]);
+
+        $user->syncPermissions()->sync($request->permissions);
+
+        return back()->with('status', 'permissions-updated');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -96,7 +110,9 @@ class UserController extends Controller
     {
         Gate::authorize('user.update', $user);
 
-        return view('admin.users.edit', ['user' => $user]);
+        $permissions = Permission::all();
+
+        return view('admin.users.edit', ['user' => $user, 'permissions' => $permissions]);
     }
 
     /**
