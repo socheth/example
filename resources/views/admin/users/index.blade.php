@@ -26,6 +26,8 @@
                                 </a>
                                 <div class="flex justify-end ms-auto">
                                     <x-admin.button-link
+                                        href="{{ route('admin.assign.permissions.edit', ['user' => $user]) }}">Permissions</x-admin.button-link>
+                                    <x-admin.button-link
                                         href="{{ route('admin.users.edit', ['user' => $user]) }}">Edit</x-admin.button-link>
                                     <form onsubmit="return confirm('Are you sure?')" method="POST"
                                         action="{{ route('admin.users.destroy', ['user' => $user]) }}">

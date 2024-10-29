@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -127,21 +126,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function permissions()
     {
-        return DB::select('SELECT permissions.* FROM permission_user
-        INNER JOIN permissions ON permission_user.permission_id = permissions.id
-        INNER JOIN users ON permission_user.user_id = users.id
-        WHERE users.id = ?', [$this->id]);
+        return $this->belongsToMany(Permission::class);
     }
 
     public function hasPermission(string $permission): bool
     {
-        $permissions = array_column($this->permissions(), 'name');
+        $permissions = $this->permissions()->pluck('name')->toArray();
 
         return in_array($permission, $permissions, true);
     }
 
-    public function syncPermissions()
-    {
-        return $this->belongsToMany(Permission::class);
-    }
 }

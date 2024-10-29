@@ -15,28 +15,32 @@
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @can('job.view')
+                    @can('job.viewAny')
                         <x-nav-link :href="route('admin.jobs.index')" :active="request()->routeIs('admin.jobs.index')">
                             {{ __('Jobs') }}
                         </x-nav-link>
                     @endcan
-                    @can('post.view')
+                    @can('post.viewAny')
                         <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                             {{ __('Posts') }}
                         </x-nav-link>
                     @endcan
-                    @can('company.view')
+                    @can('company.viewAny')
                         <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.companies.index')">
                             {{ __('Companies') }}
                         </x-nav-link>
                     @endcan
-                    @can('user.view')
+                    @can('user.viewAny')
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                             {{ __('Users') }}
                         </x-nav-link>
+                    @endcan
+                    @can('role.viewAny')
                         <x-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')">
                             {{ __('Roles') }}
                         </x-nav-link>
+                    @endcan
+                    @can('permission.viewAny')
                         <x-nav-link :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')">
                             {{ __('Permissions') }}
                         </x-nav-link>
@@ -79,9 +83,13 @@
                                 <x-dropdown-link :href="route('admin.users.create')">
                                     {{ __('New User') }}
                                 </x-dropdown-link>
+                            @endcan
+                            @can('role.create')
                                 <x-dropdown-link :href="route('admin.roles.create')">
                                     {{ __('New Role') }}
                                 </x-dropdown-link>
+                            @endcan
+                            @can('permission.create')
                                 <x-dropdown-link :href="route('admin.permissions.create')">
                                     {{ __('New Permission') }}
                                 </x-dropdown-link>

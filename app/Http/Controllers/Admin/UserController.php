@@ -80,7 +80,16 @@ class UserController extends Controller
         return back()->with('status', 'user-created');
     }
 
-    public function assignPermissions(Request $request, User $user)
+    public function editPermissions(User $user)
+    {
+        Gate::authorize('user.update', $user);
+
+        $permissions = Permission::all();
+
+        return view('admin.users.permissions', ['user' => $user, 'permissions' => $permissions]);
+    }
+
+    public function updatePermissions(Request $request, User $user)
     {
         Gate::authorize('user.update', $user);
 
@@ -88,7 +97,7 @@ class UserController extends Controller
             'permissions' => 'required|array',
         ]);
 
-        $user->syncPermissions()->sync($request->permissions);
+        $user->permissions()->sync($request->permissions);
 
         return back()->with('status', 'permissions-updated');
     }

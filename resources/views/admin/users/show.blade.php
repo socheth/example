@@ -6,6 +6,8 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Show User') }}
         </h2>
+        <x-admin.button-link
+            href="{{ route('admin.assign.permissions.edit', ['user' => $user]) }}">Permissions</x-admin.button-link>
     </x-slot>
 
     <div class="py-12">
@@ -18,7 +20,7 @@
                     <p class="mb-4 text-gray-400">{{ $user->email }} | {{ $user->phone }}</p>
                     <p class="mb-4 text-gray-400">{{ $user->address }}</p>
 
-                    @foreach ($user->permissions() as $permission)
+                    @foreach ($user->permissions as $permission)
                         <span class="inline-block mb-4 mr-4 text-gray-400">✅ {{ $permission->description }}</span>
                     @endforeach
 

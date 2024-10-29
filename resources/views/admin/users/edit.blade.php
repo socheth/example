@@ -6,10 +6,8 @@
         <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
             {{ __('Edit User') }}
         </h2>
-
         <x-primary-button x-data=""
             x-on:click.prevent="$dispatch('open-modal', 'user-permissions')">{{ __('Permissions') }}</x-primary-button>
-
     </x-slot>
 
     <form method="POST" enctype="multipart/form-data" class="w-full py-12 mx-auto lg:max-w-2xl"
@@ -117,7 +115,8 @@
 
 
     <x-modal name="user-permissions" :show="$errors->has('permissions') || session('status') === 'permissions-updated'" focusable>
-        <form method="post" action="{{ route('admin.permissions.assign', ['user' => $user]) }}" class="p-6">
+        <form method="post" action="{{ route('admin.assign.permissions.update', ['user' => $user]) }}"
+            class="p-6">
             @csrf
             @method('PATCH')
 
@@ -132,18 +131,18 @@
             <x-input-label for="permissions" :value="$user->name . __('\'s Permissions')" class="my-4 required" />
 
             <div class="h-[50vh] overflow-y-scroll p-2">
-                @php
-                    $user_permissions = array_column($user->permissions(), 'id');
-                @endphp
-                @foreach ($permissions as $permission)
-                    @php
-                        $checked = in_array($permission->id, $user_permissions, true);
-                    @endphp
-                    <div class="mb-4">
-                        <x-admin.form.checkbox :checked="$checked" name="permissions[]" :id="$permission->name"
-                            :value="$permission->id" :label="$permission->description" />
-                    </div>
-                @endforeach
+                <div class="lg:columns-3 md:columns-2">
+
+                    @foreach ($permissions as $permission)
+                        @php
+                            $checked = $user->permissions->pluck('id')->contains($permission->id);
+                        @endphp
+                        <div class="mb-4">
+                            <x-admin.form.checkbox :checked="$checked" name="permissions[]" :id="$permission->name"
+                                :value="$permission->id" :label="$permission->description" />
+                        </div>
+                    @endforeach
+                </div>
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('permissions')" />
             <div class="flex justify-end mt-6">

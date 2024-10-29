@@ -34,6 +34,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
         return view('admin.dashboard');
     })->name('dashboard');
 
+    Route::get('/assign/permissions/{user}/edit', [UserController::class, 'editPermissions'])->name('assign.permissions.edit')->middleware('is_super_admin');
+    Route::patch('/assign/permissions/{user}/update', [UserController::class, 'updatePermissions'])->name('assign.permissions.update')->middleware('is_super_admin');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -43,7 +46,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class)->middleware('is_super_admin');
     Route::resource('permissions', PermissionController::class)->middleware('is_super_admin');
-    Route::patch('/permissions/{user}/assign', [UserController::class, 'assignPermissions'])->name('permissions.assign')->middleware('is_super_admin');
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index')->name('posts.index');
