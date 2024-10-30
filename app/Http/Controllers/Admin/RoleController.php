@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Role;
+use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,9 +64,9 @@ class RoleController extends Controller
 
         $permissions = Permission::all();
 
-        $role->load('permissions');
+        $users = User::hasAnyRoles([$role->name])->get();
 
-        return view('admin.roles.show', ['role' => $role, 'permissions' => $permissions]);
+        return view('admin.roles.show', ['role' => $role, 'permissions' => $permissions, 'users' => $users]);
     }
 
     /**

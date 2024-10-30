@@ -26,6 +26,15 @@
                         @endif
                     @endforeach
 
+                    <hr class="my-4">
+
+                    <label class="block mb-1 font-bold text-gray-700 dark:text-gray-300">{{ __('Users') }}</label>
+                    <ol class="list-decimal list-inside">
+                        @foreach ($users as $user)
+                            <li>{{ $user->name }} ({{ $user->role() }})</li>
+                        @endforeach
+                    </ol>
+
                     <div class="flex mt-4">
                         <x-admin.button-link href="{{ route('admin.roles.index') }}"
                             class="mr-2">Back</x-admin.button-link>

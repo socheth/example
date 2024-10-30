@@ -131,9 +131,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasPermission(string $permission): bool
     {
-        $permissions = $this->permissions()->pluck('name')->toArray();
+        return $this->permissions->contains('name', $permission);
+    }
 
-        return in_array($permission, $permissions, true);
+    public function scopeHasAnyRoles($query, array $roles)
+    {
+        return $query->whereHas('roles', function ($query) use ($roles) {
+            $query->whereIn('name', $roles);
+        });
+    }
+
+    public function scopeHasAnyPermissions($query, array $permissions)
+    {
+        return $query->whereHas('permissions', function ($query) use ($permissions) {
+            $query->whereIn('name', $permissions);
+        });
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -55,7 +56,9 @@ class PermissionController extends Controller
     {
         Gate::authorize('permission.view', $permission);
 
-        return view('admin.permissions.show', ['permission' => $permission]);
+        $users = User::HasAnyPermissions([$permission->name])->get();
+
+        return view('admin.permissions.show', ['permission' => $permission, 'users' => $users]);
     }
 
     /**
