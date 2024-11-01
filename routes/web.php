@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Permission;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RoleController;
@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\PermissionController;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('lang', [LanguageController::class, 'change'])->name("change.lang");
 
 Route::view('/about', 'about')->name('about');
 Route::view('/contact', 'contact')->name('contact');

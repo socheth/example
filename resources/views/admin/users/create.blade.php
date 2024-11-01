@@ -81,7 +81,7 @@
 
             <div class="flex justify-between w-full gap-4">
                 <div class="flex flex-col w-full field-group md:w-1/2">
-                    <x-admin.form.checkbox id="is_active" name="is_active" :label="__('Is Active')" :checked="old('is_active')" />
+                    <x-admin.form.checkbox id="is_active" name="is_active" :label="__('Is Active')" :checked="true" />
                 </div>
                 <div class="flex flex-col w-full field-group md:w-1/2">
                     <x-admin.form.checkbox id="is_admin" name="is_admin" :label="__('Is Admin')" :checked="old('is_admin')" />

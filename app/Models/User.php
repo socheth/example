@@ -141,6 +141,20 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function scopeRole($query, string $role)
+    {
+        return $query->whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        });
+    }
+
+    public function scopeWithoutRole($query, string $role)
+    {
+        return $query->whereHas('roles', function ($query) use ($role) {
+            $query->whereNot('name', $role);
+        });
+    }
+
     public function scopeHasAnyPermissions($query, array $permissions)
     {
         return $query->whereHas('permissions', function ($query) use ($permissions) {
@@ -148,4 +162,17 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function scopePermission($query, string $permission)
+    {
+        return $query->whereHas('permissions', function ($query) use ($permission) {
+            $query->where('name', $permission);
+        });
+    }
+
+    public function scopeWithoutPermission($query, string $permission)
+    {
+        return $query->whereHas('permissions', function ($query) use ($permission) {
+            $query->whereNot('name', $permission);
+        });
+    }
 }

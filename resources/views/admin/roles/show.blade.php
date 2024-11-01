@@ -18,13 +18,15 @@
                         </span></p>
                     <x-input-label :value="__('Permissions')" />
 
-                    @foreach ($permissions as $permission)
-                        @if ($role->permissions->pluck('id')->contains($permission->id))
-                            <span class="mb-4 mr-4 font-bold">✅ {{ $permission->description }}</span>
-                        @else
-                            <span class="mb-4 mr-4 font-bold">❌ {{ $permission->description }}</span>
-                        @endif
-                    @endforeach
+                    <div class="mt-4 xl:columns-6 lg:columns-5 md:columns-4">
+                        @foreach ($permissions as $permission)
+                            @if ($role->permissions->pluck('id')->contains($permission->id))
+                                <div class="mb-4 mr-4 font-bold">✅ {{ $permission->description }}</div>
+                            @else
+                                <div class="mb-4 mr-4 font-bold">❌ {{ $permission->description }}</div>
+                            @endif
+                        @endforeach
+                    </div>
 
                     <hr class="my-4">
 
@@ -39,7 +41,7 @@
                         <x-admin.button-link href="{{ route('admin.roles.index') }}"
                             class="mr-2">Back</x-admin.button-link>
                         <x-admin.button-link href="{{ route('admin.roles.edit', ['role' => $role]) }}">Edit
-                            Post</x-admin.button-link>
+                            Role</x-admin.button-link>
 
                     </div>
                 </div>

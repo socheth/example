@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -56,9 +57,14 @@ class UserController extends Controller
             'is_admin' => ['nullable'],
         ]);
 
-        if (request('photo')) {
-            $request['photo'] = request('photo')->store('avatars', 'public');
-            $request['photo'] = asset('storage/' . $request['photo']);
+        if (request()->hasFile('photo')) {
+            $imagePath = request('photo')->store('avatars', 'public');
+            $request['photo'] = asset('storage/' . $imagePath);
+
+            // $imageName = request('photo')->getClientOriginalName();
+            // $imagePath = 'uploads/' . $imageName;
+            // Storage::disk('s3')->put($imagePath, file_get_contents(request('photo')));
+            // $request['photo'] = Storage::disk('s3')->url($imagePath);
         }
 
         $request['is_active'] ??= false;
@@ -144,9 +150,14 @@ class UserController extends Controller
             'is_admin' => ['nullable'],
         ]);
 
-        if (request('photo')) {
-            $request['photo'] = request('photo')->store('avatars', 'public');
-            $request['photo'] = asset('storage/' . $request['photo']);
+        if (request()->hasFile('photo')) {
+            // $imagePath = request('photo')->store('avatars', 'public');
+            // $request['photo'] = asset('storage/' . $imagePath);
+
+            $imageName = request('photo')->getClientOriginalName();
+            $imagePath = 'uploads/' . $imageName;
+            Storage::disk('s3')->put($imagePath, file_get_contents(request('photo')));
+            $request['photo'] = Storage::disk('s3')->url($imagePath);
         }
 
         $request['is_active'] ??= false;
@@ -157,7 +168,7 @@ class UserController extends Controller
 
         $user->update($request);
 
-        DB::table('role_user')->where('user_id', $user->id)->updateOrInsert([
+        DB::table('role_user')->where('user_id', $user->id)->update([
             'role_id' => $request['role'],
             'user_id' => $user->id,
         ]);

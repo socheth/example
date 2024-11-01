@@ -15,7 +15,7 @@
                     {{ __('Your role is:') }}
                     <span class="font-bold text-blue-400">{{ auth()->user()->role() }}</span>
 
-
+                    {{ __('messages.dashboard_message') }}
                 </div>
             </div>
         </div>

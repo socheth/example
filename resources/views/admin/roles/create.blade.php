@@ -31,9 +31,12 @@
 
             <x-input-label :value="__('Permissions')" class="required" />
 
-            @foreach ($permissions as $permission)
-                <x-admin.form.checkbox name="permissions[]" :id="$permission->name" :value="$permission->id" :label="$permission->description" />
-            @endforeach
+            <div class="lg:columns-3 md:columns-2">
+                @foreach ($permissions as $permission)
+                    <div class="mb-4"><x-admin.form.checkbox name="permissions[]" :id="$permission->name" :value="$permission->id"
+                            :label="$permission->description" /></div>
+                @endforeach
+            </div>
             <x-input-error class="mt-2" :messages="$errors->get('permissions')" />
 
         </x-admin.form.card>

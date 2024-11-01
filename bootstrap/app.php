@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\IsSuperAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'is_admin' => IsAdmin::class,
             'is_super_admin' => IsSuperAdmin::class,
+        ]);
+        $middleware->web(append: [
+            SetLocale::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

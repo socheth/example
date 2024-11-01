@@ -20,9 +20,11 @@
                     <p class="mb-4 text-gray-400">{{ $user->email }} | {{ $user->phone }}</p>
                     <p class="mb-4 text-gray-400">{{ $user->address }}</p>
 
-                    @foreach ($user->permissions as $permission)
-                        <span class="inline-block mb-4 mr-4 text-gray-400">✅ {{ $permission->description }}</span>
-                    @endforeach
+                    <div class="mt-4 xl:columns-6 lg:columns-5 md:columns-4">
+                        @foreach ($user->permissions as $permission)
+                            <div class="inline-block mb-4 mr-4 text-gray-400">✅ {{ $permission->description }}</div>
+                        @endforeach
+                    </div>
 
                     <div class="flex mt-4">
                         <x-admin.button-link href="{{ route('admin.users.index') }}"

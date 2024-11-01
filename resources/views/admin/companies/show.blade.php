@@ -18,7 +18,7 @@
                         <x-admin.button-link href="{{ route('admin.companies.index') }}"
                             class="mr-2">Back</x-admin.button-link>
                         <x-admin.button-link href="{{ route('admin.companies.edit', ['company' => $company]) }}">Edit
-                            Post</x-admin.button-link>
+                            Company</x-admin.button-link>
                         <form method="POST" onsubmit="return confirm('Are you sure?')"
                             action="{{ route('admin.companies.destroy', ['company' => $company]) }}">
                             @csrf
