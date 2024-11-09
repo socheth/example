@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -74,14 +74,15 @@ class UserController extends Controller
         $request['slug'] = Str::slug($request['name']);
         $request['password'] = Hash::make($request['password']);
 
-        $user_id = User::create($request)->id;
+        $user = User::create($request);
 
-        DB::table('role_user')->insert([
-            'role_id' => $request['role'],
-            'user_id' => $user_id,
-        ]);
+        $user->roles()->attach($request['role']);
 
-        DB::statement("INSERT INTO permission_user (SELECT permission_id, $user_id FROM permission_role WHERE role_id = $request[role])");
+        $role = Role::where('roles.id', $request['role'])->with('permissions')->first();
+
+        $permissions = $role->permissions->pluck('id')->toArray();
+
+        $user->permissions()->sync($permissions);
 
         return back()->with('status', 'user-created');
     }
@@ -108,6 +109,14 @@ class UserController extends Controller
         return back()->with('status', 'permissions-updated');
     }
 
+    public function removeRoleFromUser(User $user, Role $role)
+    {
+        Gate::authorize('role.update', $role);
+
+        $user->roles()->detach($role->id);
+
+        return back()->with('status', 'role-removed');
+    }
     /**
      * Display the specified resource.
      */
@@ -151,13 +160,13 @@ class UserController extends Controller
         ]);
 
         if (request()->hasFile('photo')) {
-            // $imagePath = request('photo')->store('avatars', 'public');
-            // $request['photo'] = asset('storage/' . $imagePath);
+            $imagePath = request('photo')->store('avatars', 'public');
+            $request['photo'] = asset('storage/' . $imagePath);
 
-            $imageName = request('photo')->getClientOriginalName();
-            $imagePath = 'uploads/' . $imageName;
-            Storage::disk('s3')->put($imagePath, file_get_contents(request('photo')));
-            $request['photo'] = Storage::disk('s3')->url($imagePath);
+            // $imageName = request('photo')->getClientOriginalName();
+            // $imagePath = 'uploads/' . $imageName;
+            // Storage::disk('s3')->put($imagePath, file_get_contents(request('photo')));
+            // $request['photo'] = Storage::disk('s3')->url($imagePath);
         }
 
         $request['is_active'] ??= false;
@@ -168,10 +177,13 @@ class UserController extends Controller
 
         $user->update($request);
 
-        DB::table('role_user')->where('user_id', $user->id)->update([
-            'role_id' => $request['role'],
-            'user_id' => $user->id,
-        ]);
+        $user->roles()->sync($request['role']);
+
+        $role = Role::where('roles.id', $request['role'])->with('permissions')->first();
+
+        $permissions = $role->permissions->pluck('id')->toArray();
+
+        $user->permissions()->sync($permissions);
 
         return back()->with('status', 'user-updated');
     }

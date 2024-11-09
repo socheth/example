@@ -10,6 +10,12 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+            @if (session('status') === 'role-removed')
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 3000)" class="text-green-600">
+                    {{ __('Role removed successfully.') }}</p>
+            @endif
+
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <p class="mb-4 text-3xl dark:text-blue-400">Role: <span class="font-bold text-gray-100">
@@ -32,8 +38,15 @@
 
                     <label class="block mb-1 font-bold text-gray-700 dark:text-gray-300">{{ __('Users') }}</label>
                     <ol class="list-decimal list-inside">
-                        @foreach ($users as $user)
-                            <li>{{ $user->name }} ({{ $user->role() }})</li>
+                        @foreach ($users as $i => $user)
+                            <li class="flex mb-4">{{ $i + 1 }}. {{ $user->name }} ({{ $user->role() }})
+                                <form method="POST" onsubmit="return confirm('Are you sure?')" class="ms-4"
+                                    action="{{ route('admin.users.roles.remove', ['user' => $user, 'role' => $role]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">❌</button>
+                                </form>
+                            </li>
                         @endforeach
                     </ol>
 

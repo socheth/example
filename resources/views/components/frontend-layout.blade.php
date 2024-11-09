@@ -1,3 +1,4 @@
+@props(['headerTitle' => 'Laravel 11 example'])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="Laravel 11 example">
-    <title>{{ $headerTitle ?? 'Laravel 11 example' }}</title>
+    <title>{{ $headerTitle }}</title>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -38,14 +39,14 @@
                 </div>
                 <div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                     <div class="flex items-center flex-shrink-0">
-                        <a href="{{ route('home') }}">
+                        <a href="{{ route('pages.home') }}">
                             <x-application-logo class="block w-auto text-white fill-current h-9 dark:text-gray-200" />
                         </a>
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
                             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <x-frontend-nav-link :href="route('home')" :active="request()->routeIs('home')">Home</x-frontend-nav-link>
+                            <x-frontend-nav-link :href="route('pages.home')" :active="request()->routeIs('pages.home')">Home</x-frontend-nav-link>
                             <x-frontend-nav-link :href="route('jobs.index')" :active="request()->routeIs('jobs.index')">Jobs</x-frontend-nav-link>
                             <x-frontend-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">Posts</x-frontend-nav-link>
                             <x-frontend-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">Companies</x-frontend-nav-link>
@@ -156,15 +157,14 @@
         <!-- Mobile menu, show/hide based on menu state. -->
         <div class="sm:hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                 <a href="{{ url('/') }}"
                     class="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md"
                     aria-current="page">Home</a>
                 <a href="{{ route('jobs.index') }}"
                     class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">Jobs</a>
-                <a href="{{ route('posts.index') }} "
+                <a href="{{ route('posts.index') }}"
                     class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">Posts</a>
-                <a href="{{ route('about') }}"
+                <a href="{{ route('pages.about') }}"
                     class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">About
                     Us</a>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -57,10 +58,24 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $role_id = 5;
+
+        $user->roles()->attach($role_id);
+
+        $role = Role::where('roles.id', $role_id)->with('permissions')->first();
+
+        $permissions = $role->permissions->pluck('id')->toArray();
+
+        $user->permissions()->sync($permissions);
+
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->intended(route('admin.dashboard', absolute: false));
+        // return redirect()->intended(route('pages.registered', absolute: false));
+
+        // return redirect(Session::get('beforeregister') . '?verified=1');
+
+        return redirect()->route('pages.registered');
     }
 }

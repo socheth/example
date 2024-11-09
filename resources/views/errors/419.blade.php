@@ -10,7 +10,7 @@
                 <p class="text-gray-600 dark:text-neutral-400">Page expired.</p>
                 <div class="flex flex-col items-center justify-center gap-2 mt-5 sm:flex-row sm:gap-3">
                     <a class="inline-flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg sm:w-auto gap-x-2 hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                        href="{{ route('home') }}">
+                        href="javascript:history.back()">
                         <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">

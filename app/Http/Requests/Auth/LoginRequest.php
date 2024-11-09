@@ -51,9 +51,8 @@ class LoginRequest extends FormRequest
                 ->orWhere('phone', $username)
                 ->orWhere(DB::raw('LOWER(name)'), $username);
         })
-            ->where('deleted_at', null)
             ->where('is_active', true)
-            ->first();
+            ->withTrashed()->first();
 
         if (!$user || !Hash::check($this->string('password'), $user->password)) {
             RateLimiter::hit($this->throttleKey());

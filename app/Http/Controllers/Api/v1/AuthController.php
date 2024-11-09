@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ForgotResource;
-use App\Jobs\VerifyEmail;
 use App\Models\User;
-use App\Notifications\NotifyAdminNewRegistered;
-use App\Notifications\RegisteredUserNotification;
+use App\Jobs\VerifyEmail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use App\Http\Resources\ForgotResource;
+use App\Notifications\NotifyAdminNewRegistered;
+use Illuminate\Database\Eloquent\Builder;
+use App\Notifications\RegisteredUserNotification;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum', ['except' => ['login', 'register', 'forgot_password']]);
+        // $this->middleware('auth:sanctum', ['except' => ['login', 'register', 'forgot_password']]);
     }
 
     public function profile(Request $request)
@@ -45,10 +46,10 @@ class AuthController extends Controller
         $user->email = $request->email ?? '';
         $user->address = $request->address ?? '';
         $user->picture = $request->picture ?? '';
-        $user->otp_code = $this->randomNumber();
+        $user->otp_code = randomNumber();
         $user->save();
 
-        $this->recordActivity($request, 'updated profile');
+        // $this->recordActivity($request, 'updated profile');
 
         return response()->json([
             'status' => true,
@@ -64,14 +65,17 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $phone = substr(str_replace(' ', '', $request->username), -8);
-
-        $user = User::where('email', $request->username)
-            ->orWhere('phone', 'LIKE', "%$phone%")
+        $user = User::where(function (Builder $query) {
+            $username = mb_strtolower($this->string('username'));
+            $query->where('email', $username)
+                ->orWhere('phone', $username)
+                ->orWhere(DB::raw('LOWER(name)'), $username);
+        })
+            ->where('is_active', true)
             ->withTrashed()->first();
 
         if ($user && $user->trashed()) {
-            $this->recordActivity($request, 'logined failed', $user);
+            // $this->recordActivity($request, 'logined failed', $user);
 
             return response()->json([
                 'status' => false,
@@ -79,20 +83,20 @@ class AuthController extends Controller
             ], 403);
         }
 
-        if ($user && $user->blocked_at) {
-            $this->recordActivity($request, 'logined failed', $user);
+        // if ($user && $user->blocked_at) {
+        //     // $this->recordActivity($request, 'logined failed', $user);
 
-            return response()->json([
-                'status' => false,
-                'message' => 'Your account has been blocked.',
-            ], 403);
-        }
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Your account has been blocked.',
+        //     ], 403);
+        // }
 
         if ($user && Hash::check($request->password, $user->password)) {
-            $user->last_login_at = now();
-            $user->save();
+            // $user->last_login_at = now();
+            // $user->save();
 
-            $this->recordActivity($request, 'logined successfully', $user);
+            // $this->recordActivity($request, 'logined successfully', $user);
 
             return response()->json([
                 'status' => true,
@@ -102,9 +106,9 @@ class AuthController extends Controller
             ]);
         }
 
-        if ($user) {
-            $this->recordActivity($request, 'logined failed', $user);
-        }
+        // if ($user) {
+        //     $this->recordActivity($request, 'logined failed', $user);
+        // }
 
         return response()->json([
             'status' => false,
@@ -282,8 +286,4 @@ class AuthController extends Controller
         }
     }
 
-    public function admin()
-    {
-        return User::where('role', 'admin')->first();
-    }
 }
