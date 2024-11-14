@@ -16,6 +16,11 @@
                     <span class="font-bold text-blue-400">{{ auth()->user()->role() }}</span>
 
                     {{ __('messages.dashboard_message') }}
+
+                    @foreach ($share_categories as $category)
+                        {{ $category }}
+                    @endforeach
+
                 </div>
             </div>
         </div>

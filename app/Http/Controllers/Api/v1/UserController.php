@@ -31,6 +31,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->user()->cannot('create', User::class)) {
+            abort(403);
+        }
+
         $request->validate([
             'name' => 'required|string|max:25',
             'email' => 'required|string|email|max:25|unique:users',

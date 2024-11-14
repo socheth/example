@@ -3,12 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\EmployeeController;
 
 Route::middleware(['auth:sanctum', 'valid_user'])->group(function () {
     Route::get('auth.check', function (Request $request) {
         return response()->json($request->header());
     });
 });
+
+Route::apiResource('employees', EmployeeController::class);
+Route::post('/auth/token', [AuthController::class, 'generateToken']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

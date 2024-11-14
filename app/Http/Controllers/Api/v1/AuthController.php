@@ -3,24 +3,40 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Models\User;
-use App\Jobs\VerifyEmail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Resources\ForgotResource;
-use App\Notifications\NotifyAdminNewRegistered;
 use Illuminate\Database\Eloquent\Builder;
-use App\Notifications\RegisteredUserNotification;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth:sanctum', ['except' => ['login', 'register', 'forgot_password']]);
+        $this->middleware('auth:sanctum', ['except' => ['login', 'register', 'forgot_password']]);
+    }
+
+    public function generateToken(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user->createToken($request->device_name)->plainTextToken;
+
+        return response()->json(['token' => $token], 200);
     }
 
     public function profile(Request $request)
@@ -46,10 +62,7 @@ class AuthController extends Controller
         $user->email = $request->email ?? '';
         $user->address = $request->address ?? '';
         $user->picture = $request->picture ?? '';
-        $user->otp_code = randomNumber();
         $user->save();
-
-        // $this->recordActivity($request, 'updated profile');
 
         return response()->json([
             'status' => true,
@@ -65,17 +78,15 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where(function (Builder $query) {
-            $username = mb_strtolower($this->string('username'));
+        $user = User::where(function (Builder $query) use ($request) {
+            $username = mb_strtolower($request->username);
             $query->where('email', $username)
                 ->orWhere('phone', $username)
                 ->orWhere(DB::raw('LOWER(name)'), $username);
         })
-            ->where('is_active', true)
             ->withTrashed()->first();
 
         if ($user && $user->trashed()) {
-            // $this->recordActivity($request, 'logined failed', $user);
 
             return response()->json([
                 'status' => false,
@@ -83,20 +94,15 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // if ($user && $user->blocked_at) {
-        //     // $this->recordActivity($request, 'logined failed', $user);
+        if ($user && $user->is_active == false) {
 
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Your account has been blocked.',
-        //     ], 403);
-        // }
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account has been blocked.',
+            ], 403);
+        }
 
         if ($user && Hash::check($request->password, $user->password)) {
-            // $user->last_login_at = now();
-            // $user->save();
-
-            // $this->recordActivity($request, 'logined successfully', $user);
 
             return response()->json([
                 'status' => true,
@@ -105,10 +111,6 @@ class AuthController extends Controller
                 'token' => $user->createToken('ApiToken')->plainTextToken,
             ]);
         }
-
-        // if ($user) {
-        //     $this->recordActivity($request, 'logined failed', $user);
-        // }
 
         return response()->json([
             'status' => false,
@@ -129,18 +131,11 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->slug = Str::slug($request->name);
         $user->email = $request->email;
-        $user->otp_code = $this->randomNumber();
+        $user->otp_code = randomNumber();
         $user->password = Hash::make($request->password);
         $user->save();
 
         $user = $user->find($user->id);
-
-        $this->recordActivity($request, 'registered new account', $user);
-
-        // Notify to new user
-        $user->notify(new RegisteredUserNotification($user, $request->password));
-        // Notify to admin
-        $this->admin()->notify(new NotifyAdminNewRegistered($user));
 
         return response()->json([
             'status' => true,
@@ -152,9 +147,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $this->recordActivity($request, 'logged out');
+        // Revoke all tokens...
+        $request->user()->tokens()->delete();
 
-        Auth::user()->tokens()->delete();
+        // Revoke the current token
+        // $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'status' => true,
@@ -191,24 +188,9 @@ class AuthController extends Controller
             ], 403);
         }
 
-        $otp_code = fake()->randomNumber();
-
-        $user->update(['otp_code' => $otp_code]);
-
-        // $this->recordActivity($request, 'forgot password', $user);
-
-        dispatch(new VerifyEmail($user->name, $otp_code))->delay(now()->addMinutes(1));
-
-        // Mail::send('mail.verify', ['name' => $user->name, 'otp' => $otp_code], function ($message) {
-        //     $message->sender('no-reply@asianinventory.com', 'Asian Inventory');
-        //     $message->to($user->email, $user->name);
-        //     $message->subject('Please verify your account');
-        //     $message->priority(3);
-        // });
-
         return response()->json([
             'status' => true,
-            'data' => new ForgotResource($user),
+            'data' => $user,
             'token' => $user->createToken('ApiToken')->plainTextToken,
         ], 200);
     }
@@ -224,8 +206,6 @@ class AuthController extends Controller
             'otp_code' => fake()->randomNumber(),
             'password' => Hash::make($request->password),
         ]);
-
-        $this->recordActivity($request, 'changed password');
 
         return response()->json([
             'status' => true,
@@ -267,13 +247,11 @@ class AuthController extends Controller
         }
 
         $user->update([
-            'otp_code' => $this->randomNumber(),
+            'otp_code' => randomNumber(),
             'password' => Hash::make($request->password),
         ]);
 
         $user = User::find($user->id);
-
-        $this->recordActivity($request, 'reset password', $user);
 
         if ($user && Hash::check($request->password, $user->password)) {
 
