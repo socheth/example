@@ -13,7 +13,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return response()->json(Employee::all());
+        return Employee::with('user')->latest()->get();
     }
 
     /**
@@ -21,13 +21,13 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
         ]);
 
-        $employee = Employee::create($data);
+        $employee = Employee::create($fields);
 
         return response()->json($employee, 201);
     }
@@ -45,13 +45,13 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        $data = $request->validate([
+        $fields = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
         ]);
 
-        $employee->update($data);
+        $employee->update($fields);
 
         return response()->json($employee, 201);
     }

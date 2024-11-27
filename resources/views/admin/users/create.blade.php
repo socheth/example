@@ -33,7 +33,7 @@
                 <div class="flex flex-col w-full field-group md:w-1/2">
                     <x-input-label for="password" :value="__('Password')" class="required" />
                     <x-text-input id="password" class="block w-full mt-1" type="password" name="password"
-                        autocomplete="off" />
+                        :value="old('password')" autocomplete="off" />
                     <x-input-error class="mt-2" :messages="$errors->get('password')" />
                 </div>
             </div>

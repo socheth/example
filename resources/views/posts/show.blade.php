@@ -10,9 +10,7 @@
             <div class="p-6 ">
                 <p class="mb-4 text-3xl dark:text-blue-400">{{ $post->title }}</p>
                 <p class="mb-4 ">{{ $post->body }}</p>
-
                 <img class="block w-full max-w-lg mt-5" src="{{ $post->image }}" alt="Post Image">
-
             </div>
 
         </div>

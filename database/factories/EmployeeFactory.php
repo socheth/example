@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,10 +20,12 @@ class EmployeeFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'username' => fake()->userName(),
+            'user_id' => User::all()->random()->id,
+            'company_id' => Company::all()->random()->id,
+            'phone' => fake()->phoneNumber(),
             'email' => fake()->email(),
             'address' => fake()->address(),
-            'profilepicture' => fake()->imageUrl(200, 200),
+            'avatar' => fake()->imageUrl(200, 200),
         ];
     }
 }

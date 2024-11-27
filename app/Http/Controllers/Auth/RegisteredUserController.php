@@ -72,10 +72,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // return redirect()->intended(route('pages.registered', absolute: false));
-
-        // return redirect(Session::get('beforeregister') . '?verified=1');
-
         return redirect()->route('pages.registered');
     }
 }
