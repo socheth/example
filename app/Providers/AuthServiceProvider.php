@@ -2,16 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Job;
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Company;
 use App\Models\Permission;
-use App\Policies\AdminPolicy;
-use App\Policies\JobPolicy;
-use App\Policies\PostPolicy;
-use App\Policies\CompanyPolicy;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

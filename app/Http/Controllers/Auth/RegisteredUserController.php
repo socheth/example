@@ -30,7 +30,7 @@ class RegisteredUserController extends Controller
 
         } elseif (url()->previous() == url()->current()) {
 
-            Session::put('beforeregister', redirect()->intended(route('dashboard', absolute: false)));
+            Session::put('beforeregister', redirect()->intended(route('admin.dashboard', absolute: false)));
         }
 
         return view('auth.register');
